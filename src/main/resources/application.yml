@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /demo
+jwt:
+  secret: 31415D2653589dhki72dgd3t8zs24fhf3967tttt4323846
+  lifetime: 30m
+
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:postgresql://localhost:5432/emp_application
+      username: postgres
+      password: admin
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/emp_application;
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: always
