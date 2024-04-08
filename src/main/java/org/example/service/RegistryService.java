@@ -13,15 +13,13 @@ public class RegistryService {
 
     private final RegistryRepository registryRepository;
 
+    @Autowired
     public RegistryService(RegistryRepository registryRepository) {
         this.registryRepository = registryRepository;
     }
 
-    public ApplicationRegistry getRepository(String email) {
-        if (registryRepository == null) {
-            return null;
-        }
-        return registryRepository.findByEmpEmail(email).get();
+    public Optional<ApplicationRegistry> getRepository(String email) {
+        return registryRepository.findByEmpEmail(email);
     }
 
     public List<ApplicationRegistry> findAll() {
