@@ -63,24 +63,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
-    @Override
-    public void update(String name, Long id) throws EmailExistsException {
-    }
-
-    @Override
-    public boolean deleteById(Long id) {
-        return false;
-    }
 
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByEmail(username);
-    }
 
     @Override
     public List<User> findByRoleUser(RolesEnum role) {

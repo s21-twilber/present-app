@@ -8,6 +8,7 @@ import org.example.entity.User;
 import org.example.enums.RolesEnum;
 import org.example.enums.StatusesEnum;
 import org.example.repository.ApplicationRepository;
+import org.example.service.ApplicationService;
 import org.example.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,16 +19,15 @@ import java.util.Random;
 
 
 @Service
-public class ApplicationServiceImpl {
+public class ApplicationServiceImpl implements ApplicationService {
 
     private final ApplicationRepository applicationRepository;
     private final UserService userService;
-    private final RegistryServiceImpl registryService;
+//    private final RegistryServiceImpl registryService;
 
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository, UserService userService, RegistryServiceImpl registryService) {
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository, UserService userService) {
         this.applicationRepository = applicationRepository;
         this.userService = userService;
-        this.registryService = registryService;
     }
 
     public ResponseEntity<?> createNewApplication(NewApplication app) {
@@ -39,7 +39,6 @@ public class ApplicationServiceImpl {
         tmp.setNumChildren(app.getNumChildren());
         Random rand = new Random();
         List<User> coordinators = userService.findByRoleCoordinator(RolesEnum.ROLE_COORDINATOR);
-        System.out.println(userService.getAll());
         User responsible = coordinators.get(rand.nextInt(coordinators.size()));
         //
         tmp.setResponsibleId(responsible.getId());
@@ -52,9 +51,6 @@ public class ApplicationServiceImpl {
         Status status = new Status(statusesEnum);
         app.get().setStatus(status);
         applicationRepository.save(app.get());
-        if (statusesEnum.equals(StatusesEnum.under_consideration)) {
-            registryService.addApplication(app.get());
-        }
     }
 
 

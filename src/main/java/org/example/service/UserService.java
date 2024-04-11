@@ -15,11 +15,8 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
     User createNewUser(RegistrationUser registrationUser);
     List<User> getAll();
-    void update(String name, Long id) throws EmailExistsException;
     void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder);
-    boolean deleteById(Long id);
     Optional<User> findByEmail(String email);
-    Optional<User> findByUsername(String username);
     List<User> findByRoleUser(RolesEnum role);
     List<User> findByRoleCoordinator(RolesEnum role);
 }

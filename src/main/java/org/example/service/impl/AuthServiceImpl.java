@@ -8,6 +8,7 @@ import org.example.dto.jwt.JwtResponse;
 import org.example.entity.User;
 import org.example.exception.AppError;
 import org.example.repository.RoleRepository;
+import org.example.service.AuthService;
 import org.example.service.UserService;
 import org.example.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl {
+public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager manager;
