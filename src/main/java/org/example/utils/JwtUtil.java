@@ -34,7 +34,6 @@ public class JwtUtil {
                 .collect(Collectors.toList());
         data.put("roles", roles);
         // email
-        // pass?
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + lifetime.toMillis());
         return Jwts.builder().claims(data)

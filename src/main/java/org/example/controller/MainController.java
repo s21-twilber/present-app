@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.service.RegistryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +10,6 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class MainController {
 
-    private RegistryService registryService;
 
     @GetMapping("/unsecured")
     public String unsecuredLate() {
@@ -26,12 +24,6 @@ public class MainController {
     @GetMapping("/coordinator")
     public String coordinatorLate() {
         return "coordinatorLate";
-    }
-
-    @GetMapping("/registry")
-    public String userRegistry(Principal principal) {
-        String username = principal.getName();
-        return registryService.getRepository(username).toString();
     }
 
     @GetMapping("/admin")

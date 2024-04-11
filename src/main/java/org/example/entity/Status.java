@@ -1,28 +1,30 @@
 package org.example.entity;
 
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.example.enums.StatusesEnum;
+
+import javax.persistence.*;
+
+@Entity
+@Data
+@Table(name = "statuses", schema = "app")
 public class Status {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    private String name;
 
-    public Status(int id, String name) {
-        this.id = id;
+    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    private StatusesEnum name;
+
+
+    public Status(StatusesEnum name) {
         this.name = name;
     }
 
-    // Id
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    // Name
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
 }

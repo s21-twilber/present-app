@@ -1,18 +1,20 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.jwt.JwtRequest;
-import org.example.jwt.RegistrationUser;
-import org.example.service.AuthService;
+import org.example.dto.RegistrationUser;
+import org.example.dto.jwt.JwtRequest;
+import org.example.service.impl.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthService authService;
+
+    private final AuthServiceImpl authService;
 
 
     @PostMapping("/auth")

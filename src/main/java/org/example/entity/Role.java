@@ -1,13 +1,15 @@
 package org.example.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.enums.RolesEnum;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.UUID;
+
 
 @Entity
+@NoArgsConstructor
+@Data
 @Table(name = "roles", schema = "app")
 public class Role {
 
@@ -19,29 +21,6 @@ public class Role {
     @Column(name = "name")
     @Enumerated(EnumType.STRING)
     private RolesEnum name;
-
-    public Role(){}
-
-    public Role(Integer id, RolesEnum name){
-        this.id = id;
-        this.name = name;
-    }
-
-    //  Id
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    //  Name
-    public RolesEnum getName() {
-        return name;
-    }
-    public void setName(RolesEnum name) {
-        this.name = name;
-    }
 
 
     public String getAuthority() {

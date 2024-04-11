@@ -18,7 +18,7 @@ CREATE TABLE if not exists app.roles
 
 CREATE TABLE if not exists app.statuses
 (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name VARCHAR(30) UNIQUE NOT NULL
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE if not exists app.users
     tel_number VARCHAR(50),
     position VARCHAR(50) NOT NULL default 'Должность_1',
     emp_date DATE NOT NULL default current_date,
-    role VARCHAR(30) NOT NULL default 'ROLE_USER',
+    role VARCHAR(30),
 
     FOREIGN KEY (position) REFERENCES app.positions(name),
     FOREIGN KEY (role) REFERENCES app.roles(name)
@@ -52,14 +52,15 @@ CREATE TABLE if not exists app.users_roles
     FOREIGN KEY (role_id) REFERENCES app.roles(id)
 );
 
+
 CREATE TABLE if not exists app.present_application
 (
-    id SERIAL PRIMARY KEY,
-    emp_id SERIAL NOT NULL,
+    id SERIAL PRIMARY KEY UNIQUE,
+    emp_id BIGINT,
     emp_name VARCHAR(100) NOT NULL,
     emp_date_of_birth VARCHAR(50) NOT NULL,
     emp_email VARCHAR(50) NOT NULL,
-    emp_tel_number BIGINT NOT NULL,
+    emp_tel_number VARCHAR(50) NOT NULL,
     emp_position VARCHAR(30) NOT NULL default 'Должность_1',
     emp_date DATE NOT NULL default current_date,
     num_children INT NOT NULL default 0,
@@ -67,30 +68,41 @@ CREATE TABLE if not exists app.present_application
     addfiles_ref TEXT[],
     comment_children VARCHAR(200),
     final_photo TEXT[],
-    responsible_id SERIAL NOT NULL,
+    responsible_id BIGINT,
     comment_status VARCHAR(200),
     app_type VARCHAR(30) default 'gifts',
-    status VARCHAR(30) NOT NULL default 'черновик',
+    status VARCHAR(30) NOT NULL default 'draft',
     app_date DATE NOT NULL default current_date,
 
     FOREIGN KEY (num_children) REFERENCES app.children(number),
     FOREIGN KEY (emp_id) REFERENCES app.users(id)
 );
 
+
 CREATE TABLE if not exists app.application_registry
 (
-    id SERIAL PRIMARY KEY,
-    app_id SERIAL NOT NULL,
+    id SERIAL PRIMARY KEY UNIQUE,
+    app_id BIGINT UNIQUE,
     app_type VARCHAR(30) default 'gifts',
     status VARCHAR(30) NOT NULL default 'черновик',
     app_date DATE NOT NULL default current_date,
-    responsible_id SERIAL NOT NULL,
+    responsible_id BIGINT,
     comment_status VARCHAR(200),
 
     FOREIGN KEY (status) REFERENCES app.statuses(name),
-    FOREIGN KEY (app_id) REFERENCES app.present_application(id),
-    FOREIGN KEY (responsible_id) REFERENCES app.users(id)
+    FOREIGN KEY (app_id) REFERENCES app.present_application(id)
+--     FOREIGN KEY (responsible_id) REFERENCES app.present_application(responsible_id)
 );
+
+CREATE TABLE if not exists app.applications_statuses
+(
+    app_id BIGINT,
+    status_id INT,
+
+    FOREIGN KEY (status_id) REFERENCES app.statuses(id),
+    FOREIGN KEY (app_id) REFERENCES app.present_application(id)
+);
+
 
 CREATE TABLE if not exists app.files
 (
