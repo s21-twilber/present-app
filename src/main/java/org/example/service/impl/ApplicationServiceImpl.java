@@ -30,11 +30,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         this.userService = userService;
     }
 
-    public ResponseEntity<?> createNewApplication(NewApplication app) {
+    @Override
+    public ResponseEntity<?> createNewApplication(NewApplication app, Long userId) {
         PresentApplication tmp = new PresentApplication();
-        tmp.setEmail(app.getEmail());
-        tmp.setFullName(app.getFullName());
-        tmp.setBirthDate(app.getBirthDate());
+        User user = userService.findById(userId).get();
+        tmp.setEmpId(user.getId());
+        tmp.setEmail(user.getEmail());
+        tmp.setFullName(user.getFullName());
+        tmp.setBirthDate(user.getBirthDate());
         tmp.setPhoneNumber(app.getPhoneNumber());
         tmp.setNumChildren(app.getNumChildren());
         Random rand = new Random();
@@ -46,11 +49,32 @@ public class ApplicationServiceImpl implements ApplicationService {
          return ResponseEntity.ok(new ApplicationDto(present.getId(), present.getResponsibleId()));
     }
 
+    @Override
     public void updateStatusApplication(Long id, StatusesEnum statusesEnum) {
         Optional<PresentApplication> app = applicationRepository.findById(id);
         Status status = new Status(statusesEnum);
         app.get().setStatus(status);
         applicationRepository.save(app.get());
+    }
+
+    @Override
+    public ResponseEntity<?> getRepository(Long userId) {
+        return ResponseEntity.ok(applicationRepository.findAllByEmpId(userId));
+    }
+
+    @Override
+    public ResponseEntity<?> getCoordinatorRepository(Long userId) {
+        return ResponseEntity.ok(applicationRepository.findAllByResponsibleId(userId));
+    }
+
+    @Override
+    public ResponseEntity<?> getUserApplication(Long userId, Long appId) {
+        return ResponseEntity.ok(applicationRepository.findByEmpIdAndId(userId, appId));
+    }
+
+    @Override
+    public ResponseEntity<?> getUserApplication(Long appId) {
+        return ResponseEntity.ok(applicationRepository.findById(appId));
     }
 
 

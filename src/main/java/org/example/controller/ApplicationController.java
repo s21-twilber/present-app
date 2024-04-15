@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.NewApplication;
 import org.example.service.impl.ApplicationServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 
 @RestController
@@ -16,14 +16,19 @@ public class ApplicationController {
     private final ApplicationServiceImpl applicationService;
 
 
-//    @GetMapping("/registry")
-//    public String userRegistry(Principal principal) {
-//        String username = principal.getName();
-//        return registryService.getRepository(username).toString();
-//    }
-
-    @PostMapping("/create")
-    public ResponseEntity<?> createApplication(@RequestBody NewApplication application) {
-        return applicationService.createNewApplication(application);
+    @GetMapping("/registry/{userId}")
+    public ResponseEntity<?> userRegistry(Principal principal, @PathVariable Long userId) {
+        return applicationService.getRepository(userId);
     }
+
+    @PostMapping("/registry/{userId}/create")
+    public ResponseEntity<?> createApplication(@RequestBody NewApplication application, @PathVariable Long userId) {
+        return applicationService.createNewApplication(application, userId);
+    }
+
+    @GetMapping("/registry/{userId}/{appId}")
+    public ResponseEntity<?> applicationById(Principal principal, @PathVariable Long userId, @PathVariable Long appId) {
+        return applicationService.getUserApplication(userId, appId);
+    }
+
 }

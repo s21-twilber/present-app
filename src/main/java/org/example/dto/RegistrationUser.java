@@ -8,7 +8,7 @@ public class RegistrationUser {
     private String password;
     private String confirmPassword;
     private String email;
-    private Integer role;
+    private String fullName;
 
 }
 

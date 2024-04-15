@@ -49,11 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = new User();
         user.setEmail(registrationUser.getEmail());
         user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
-        if (registrationUser.getRole() == 3) {
-            user.setRoles(List.of(roleService.getCoordinatorRole()));
-        } else {
-            user.setRoles(List.of(roleService.getUserRole()));
-        }
+        user.setRoles(List.of(roleService.getUserRole()));
 
         return userRepository.save(user);
     }
@@ -67,6 +63,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+            return userRepository.findById(id);
     }
 
 

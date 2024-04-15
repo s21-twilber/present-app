@@ -16,7 +16,7 @@ public class PresentApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Transient
+    @Column(name = "emp_id")
     private Long empId;
     @Column(name = "emp_email")
     private String email;

@@ -7,9 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NewApplication {
 
-    private String email;
-    private String fullName;
-    private String birthDate;
     private String phoneNumber;
     private int numChildren;
 

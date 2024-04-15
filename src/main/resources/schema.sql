@@ -37,7 +37,7 @@ CREATE TABLE if not exists app.users
     tel_number VARCHAR(50),
     position VARCHAR(50) NOT NULL default 'Должность_1',
     emp_date DATE NOT NULL default current_date,
-    role VARCHAR(30),
+    role VARCHAR(30) default 'ROLE_USER',
 
     FOREIGN KEY (position) REFERENCES app.positions(name),
     FOREIGN KEY (role) REFERENCES app.roles(name)
@@ -71,7 +71,7 @@ CREATE TABLE if not exists app.present_application
     responsible_id BIGINT,
     comment_status VARCHAR(200),
     app_type VARCHAR(30) default 'gifts',
-    status VARCHAR(30) NOT NULL default 'draft',
+    status VARCHAR(30) NOT NULL default 'under_consideration',
     app_date DATE NOT NULL default current_date,
 
     FOREIGN KEY (num_children) REFERENCES app.children(number),

@@ -17,6 +17,7 @@ public interface UserService extends UserDetailsService {
     List<User> getAll();
     void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder);
     Optional<User> findByEmail(String email);
+    Optional<User> findById(Long id);
     List<User> findByRoleUser(RolesEnum role);
     List<User> findByRoleCoordinator(RolesEnum role);
 }
