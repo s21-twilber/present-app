@@ -3,15 +3,17 @@ package org.example.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.enums.RolesEnum;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
 @NoArgsConstructor
 @Data
 @Table(name = "roles", schema = "app")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +24,12 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RolesEnum name;
 
+    @Transient
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
+    @Override
     public String getAuthority() {
-        return String.valueOf(getName());
+        return this.name.name();
     }
 }

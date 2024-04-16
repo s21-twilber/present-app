@@ -17,11 +17,6 @@ public class AuthController {
     private final AuthServiceImpl authService;
 
 
-    @PostMapping("/auth")
-    public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest request) {
-        return authService.createAuthToken(request);
-    }
-
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUser registrationUser) {
         return authService.createNewUser(registrationUser);

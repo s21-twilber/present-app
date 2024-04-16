@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.RegistrationUser;
 import org.example.dto.UserDto;
 import org.example.dto.jwt.JwtRequest;
-import org.example.dto.jwt.JwtResponse;
+//import org.example.dto.jwt.JwtResponse;
 import org.example.entity.User;
 import org.example.exception.AppError;
 import org.example.repository.RoleRepository;
 import org.example.service.AuthService;
 import org.example.service.UserService;
-import org.example.utils.JwtUtil;
+//import org.example.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,14 +25,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UserService userService;
-    private final JwtUtil jwtUtil;
     private final AuthenticationManager manager;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
 
-    public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest request) {
+    public ResponseEntity<?> login(@RequestBody JwtRequest request) {
         try {
             manager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         } catch (BadCredentialsException e) {
@@ -40,8 +39,7 @@ public class AuthServiceImpl implements AuthService {
                     "Неправильный логин или пароль"), HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(request.getUsername());
-        String token = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(userDetails);
     }
 
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUser registrationUser) {

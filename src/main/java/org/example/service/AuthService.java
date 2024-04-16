@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface AuthService {
 
-    ResponseEntity<?> createAuthToken(@RequestBody JwtRequest request);
+    ResponseEntity<?> login(@RequestBody JwtRequest request);
 
     ResponseEntity<?> createNewUser(@RequestBody RegistrationUser registrationUser);
 }

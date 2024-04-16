@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /demo
+    context-path:
 jwt:
   secret: 31415D2653589dhki72dgd3t8zs24fhf3967tttt4323846
   lifetime: 30m
