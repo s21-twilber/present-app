@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.service.UserService;
 import org.example.service.impl.ApplicationServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +15,16 @@ import java.security.Principal;
 public class CoordinatorController {
 
     private final ApplicationServiceImpl applicationService;
+    private final UserService userService;
 
-    @GetMapping("/cregistry/{userId}")
-    public ResponseEntity<?> coordinatorRegistry(Principal principal, @PathVariable Long userId) {
+    @GetMapping("/cregistry")
+    public ResponseEntity<?> coordinatorRegistry(Principal principal) {
+        Long userId = userService.findByEmail(principal.getName()).get().getId();
         return applicationService.getCoordinatorRepository(userId);
     }
 
-    @GetMapping("/cregistry/{userId}/{appId}")
-    public ResponseEntity<?> applicationById(Principal principal, @PathVariable Long userId, @PathVariable Long appId) {
+    @GetMapping("/cregistry/{appId}")
+    public ResponseEntity<?> applicationById(@PathVariable Long appId) {
         return applicationService.getUserApplication(appId);
     }
 }

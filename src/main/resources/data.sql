@@ -17,3 +17,6 @@ VALUES 	(1, 'Должность_1'), (2, 'Должность_2'), (3, 'Долж�
 INSERT INTO app.users (name, password, email, role)
 VALUES ('user', '$2a$10$6xnFuaslRfe9aqF1aWid5uxq.D7bdxi6r5alhTyGpkrUtD.Egd0Ai', 'user@user', 'ROLE_COORDINATOR');
 
+INSERT INTO app.users_roles (user_id, role_id)
+VALUES (1, 3);
+

@@ -18,25 +18,22 @@ public class ApplicationController {
     private final UserService userService;
 
 
-    @GetMapping("/registry/{userId}")
-    public ResponseEntity<?> userRegistry(Principal principal, @PathVariable Long userId) {
-        System.out.println(principal.getName());
+    @GetMapping("/registry")
+    public ResponseEntity<?> userRegistry(Principal principal) {
+        Long userId = userService.findByEmail(principal.getName()).get().getId();
         return applicationService.getRepository(userId);
     }
 
-    @GetMapping("/registry")
-    public ResponseEntity<?> userRegistry2(Principal principal) {
-        Long id = userService.findByEmail(principal.getName()).get().getId();
-        return applicationService.getRepository(id);
-    }
 
-    @PostMapping("/registry/{userId}/create")
-    public ResponseEntity<?> createApplication(@RequestBody NewApplication application, @PathVariable Long userId) {
+    @PostMapping("/registry/create")
+    public ResponseEntity<?> createApplication(Principal principal, @RequestBody NewApplication application) {
+        Long userId = userService.findByEmail(principal.getName()).get().getId();
         return applicationService.createNewApplication(application, userId);
     }
 
-    @GetMapping("/registry/{userId}/{appId}")
-    public ResponseEntity<?> applicationById(Principal principal, @PathVariable Long userId, @PathVariable Long appId) {
+    @GetMapping("/registry/{appId}")
+    public ResponseEntity<?> applicationById(Principal principal, @PathVariable Long appId) {
+        Long userId = userService.findByEmail(principal.getName()).get().getId();
         return applicationService.getUserApplication(userId, appId);
     }
 

@@ -48,7 +48,7 @@ public class User implements UserDetails {
         return roles;
     }
     public void setRoles(Collection<Role> roles) {
-        this.role = roles.stream().findFirst().get().getName().name();
+//        this.role = roles.stream().findFirst().get().getName().name();
         this.roles = roles;
     }
 

@@ -43,7 +43,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         Random rand = new Random();
         List<User> coordinators = userService.findByRoleCoordinator(RolesEnum.ROLE_COORDINATOR);
         User responsible = coordinators.get(rand.nextInt(coordinators.size()));
-        //
         tmp.setResponsibleId(responsible.getId());
         PresentApplication present = applicationRepository.save(tmp);
          return ResponseEntity.ok(new ApplicationDto(present.getId(), present.getResponsibleId()));

@@ -20,16 +20,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
+    private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+    @Autowired
+    public void setCustomAuthenticationSuccessHandler(CustomAuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.formLogin().defaultSuccessUrl("/registry", true);
+        http
+                .formLogin().successHandler(authenticationSuccessHandler)
+                .and()
+                .formLogin().permitAll()
+                .loginPage("/login");
         http
                 .csrf().disable()
                 .authorizeRequests()

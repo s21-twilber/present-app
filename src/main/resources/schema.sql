@@ -79,21 +79,6 @@ CREATE TABLE if not exists app.present_application
 );
 
 
-CREATE TABLE if not exists app.application_registry
-(
-    id SERIAL PRIMARY KEY UNIQUE,
-    app_id BIGINT UNIQUE,
-    app_type VARCHAR(30) default 'gifts',
-    status VARCHAR(30) NOT NULL default 'черновик',
-    app_date DATE NOT NULL default current_date,
-    responsible_id BIGINT,
-    comment_status VARCHAR(200),
-
-    FOREIGN KEY (status) REFERENCES app.statuses(name),
-    FOREIGN KEY (app_id) REFERENCES app.present_application(id)
---     FOREIGN KEY (responsible_id) REFERENCES app.present_application(responsible_id)
-);
-
 CREATE TABLE if not exists app.applications_statuses
 (
     app_id BIGINT,
