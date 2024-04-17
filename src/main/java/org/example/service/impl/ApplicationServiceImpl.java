@@ -23,7 +23,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private final ApplicationRepository applicationRepository;
     private final UserService userService;
-//    private final RegistryServiceImpl registryService;
 
     public ApplicationServiceImpl(ApplicationRepository applicationRepository, UserService userService) {
         this.applicationRepository = applicationRepository;

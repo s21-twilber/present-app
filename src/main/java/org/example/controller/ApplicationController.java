@@ -6,7 +6,6 @@ import org.example.service.UserService;
 import org.example.service.impl.ApplicationServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 
 
@@ -19,7 +18,7 @@ public class ApplicationController {
 
 
     @GetMapping("/registry")
-    public ResponseEntity<?> userRegistry(Principal principal) {
+    public ResponseEntity<?> getUserRegistry(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).get().getId();
         return applicationService.getRepository(userId);
     }
@@ -32,7 +31,7 @@ public class ApplicationController {
     }
 
     @GetMapping("/registry/{appId}")
-    public ResponseEntity<?> applicationById(Principal principal, @PathVariable Long appId) {
+    public ResponseEntity<?> getApplicationById(Principal principal, @PathVariable Long appId) {
         Long userId = userService.findByEmail(principal.getName()).get().getId();
         return applicationService.getUserApplication(userId, appId);
     }
