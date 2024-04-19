@@ -1,9 +1,8 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.RegistrationUser;
-import org.example.entity.PresentApplication;
 import org.example.enums.StatusesEnum;
+import org.example.exception.AppError;
 import org.example.service.UserService;
 import org.example.service.impl.ApplicationServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +28,13 @@ public class CoordinatorController {
         return applicationService.getUserApplication(appId);
     }
 
-    @PostMapping("/cregistry/{appId}")
-    public ResponseEntity<?> updateStatusApplicationById(@PathVariable Long appId, @RequestBody StatusesEnum status) {
+    @PatchMapping("/cregistry/{appId}")
+    public ResponseEntity<?> updateStatusApplicationById(@PathVariable Long appId, @RequestBody String status)
+            throws AppError {
         applicationService.updateStatusApplication(appId, status);
         return applicationService.getUserApplication(appId);
     }
+
+
+
 }

@@ -1,14 +1,16 @@
 package org.example.service.impl;
 
-import org.example.dto.RegistrationUser;
+import lombok.extern.slf4j.Slf4j;
+import org.example.dto.RegistrationUserDto;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
-import org.example.exception.EmailExistsException;
+import org.example.exception.AppError;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
@@ -45,11 +47,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
-    public User createNewUser(RegistrationUser registrationUser)  {
+    public User createNewUser(RegistrationUserDto registrationUser)  {
         User user = new User();
         user.setEmail(registrationUser.getEmail());
         user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
-        user.setRoles(List.of(roleService.getUserRole()));
+        user.setRole(roleService.getUserRole());
+        user.setFullName(registrationUser.getFullName());
+
+        log.info("Create new user {}", user);
 
         return userRepository.save(user);
     }
@@ -73,12 +78,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> findByRoleUser(RolesEnum role) {
-        return userRepository.findUsersByRole(roleService.getUserRole().getName().name());
+        return userRepository.findUsersByRole(roleService.getUserRole());
     }
 
     @Override
-    public List<User> findByRoleCoordinator(RolesEnum role) {
-        return userRepository.findUsersByRole(roleService.getCoordinatorRole().getName().name());
+    public List<User> findByRoleCoordinator(RolesEnum role) throws AppError {
+        try {
+            return userRepository.findUsersByRole(roleService.getCoordinatorRole());
+        } catch (BadCredentialsException e) {
+            throw new AppError(HttpStatus.GATEWAY_TIMEOUT.value(),
+                    "Отсутствуют координаторы");
+        }
     }
 
     @Override

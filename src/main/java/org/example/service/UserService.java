@@ -1,9 +1,9 @@
 package org.example.service;
 
-import org.example.dto.RegistrationUser;
+import org.example.dto.RegistrationUserDto;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
-import org.example.exception.EmailExistsException;
+import org.example.exception.AppError;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,11 +13,11 @@ import java.util.Optional;
 
 
 public interface UserService extends UserDetailsService {
-    User createNewUser(RegistrationUser registrationUser);
+    User createNewUser(RegistrationUserDto registrationUser);
     List<User> getAll();
     void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder);
     Optional<User> findByEmail(String email);
     Optional<User> findById(Long id);
     List<User> findByRoleUser(RolesEnum role);
-    List<User> findByRoleCoordinator(RolesEnum role);
+    List<User> findByRoleCoordinator(RolesEnum role) throws AppError;
 }

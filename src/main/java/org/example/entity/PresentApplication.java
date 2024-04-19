@@ -1,9 +1,7 @@
 package org.example.entity;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -22,7 +20,8 @@ public class PresentApplication {
     private String email;
     @Column(name = "emp_name")
     private String fullName;
-    @Column(name = "emp_date_of_birth")
+//    @Column(name = "emp_date_of_birth")
+    @Transient
     private String birthDate;
     @Column(name = "emp_tel_number")
     private String phoneNumber;
@@ -41,7 +40,8 @@ public class PresentApplication {
     @Column(name = "responsible_id")
     private Long responsibleId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+//    @Transient
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "applications_statuses", schema = "app",
             joinColumns = @JoinColumn(name = "app_id"),
             inverseJoinColumns = @JoinColumn(name = "status_id"))

@@ -43,7 +43,7 @@ CREATE TABLE if not exists app.users
     FOREIGN KEY (role) REFERENCES app.roles(name)
 );
 
-CREATE TABLE if not exists app.users_roles
+CREATE TABLE if not exists app.users_role
 (
     user_id BIGINT,
     role_id INT,
@@ -58,7 +58,7 @@ CREATE TABLE if not exists app.present_application
     id SERIAL PRIMARY KEY UNIQUE,
     emp_id BIGINT,
     emp_name VARCHAR(100) NOT NULL,
-    emp_date_of_birth VARCHAR(50) NOT NULL,
+    emp_date_of_birth VARCHAR(50),
     emp_email VARCHAR(50) NOT NULL,
     emp_tel_number VARCHAR(50) NOT NULL,
     emp_position VARCHAR(30) NOT NULL default 'Должность_1',

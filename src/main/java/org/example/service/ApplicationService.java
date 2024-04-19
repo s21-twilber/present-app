@@ -1,15 +1,16 @@
 package org.example.service;
 
-import org.example.dto.NewApplication;
+import org.example.dto.PresentDto;
 import org.example.enums.StatusesEnum;
+import org.example.exception.AppError;
 import org.springframework.http.ResponseEntity;
 
 
 public interface ApplicationService {
 
-    ResponseEntity<?> createNewApplication(NewApplication app, Long userId);
+    ResponseEntity<?> createNewApplication(PresentDto app, Long userId) throws AppError;
 
-    void updateStatusApplication(Long id, StatusesEnum statusesEnum);
+    void updateStatusApplication(Long id, String statusName) throws AppError;
 
     ResponseEntity<?> getRepository(Long userId);
 

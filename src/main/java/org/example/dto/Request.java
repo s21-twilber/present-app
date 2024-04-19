@@ -1,9 +1,9 @@
-package org.example.dto.jwt;
+package org.example.dto;
 
 import lombok.Data;
 
 @Data
-public class JwtRequest {
+public class Request {
     private String username;
     private String password;
 

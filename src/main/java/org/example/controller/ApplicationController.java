@@ -1,7 +1,8 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.NewApplication;
+import org.example.dto.PresentDto;
+import org.example.exception.AppError;
 import org.example.service.UserService;
 import org.example.service.impl.ApplicationServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,8 @@ public class ApplicationController {
 
 
     @PostMapping("/registry/create")
-    public ResponseEntity<?> createApplication(Principal principal, @RequestBody NewApplication application) {
+    public ResponseEntity<?> createApplication(Principal principal, @RequestBody PresentDto application)
+            throws AppError {
         Long userId = userService.findByEmail(principal.getName()).get().getId();
         return applicationService.createNewApplication(application, userId);
     }

@@ -1,7 +1,8 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.RegistrationUser;
+import org.example.dto.RegistrationUserDto;
+import org.example.exception.AppError;
 import org.example.service.impl.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,8 @@ public class AuthController {
     private final AuthServiceImpl authService;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> createNewUser(@RequestBody RegistrationUser registrationUser) {
+    public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUser)
+            throws AppError {
         return authService.createNewUser(registrationUser);
     }
 

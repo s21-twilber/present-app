@@ -17,10 +17,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     public Role getUserRole() {
-        return roleRepository.findByName(RolesEnum.valueOf("ROLE_USER")).get();
+        return roleRepository.findRoleByName(RolesEnum.valueOf("ROLE_USER")).get();
     }
 
     public Role getCoordinatorRole() {
-        return roleRepository.findByName(RolesEnum.valueOf("ROLE_COORDINATOR")).get();
+        return roleRepository.findRoleByName(RolesEnum.valueOf("ROLE_COORDINATOR")).get();
     }
 }

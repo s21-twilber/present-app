@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 @Entity
@@ -19,9 +20,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "password")
     private String password;
-    @Column(name = "email")
     private String email;
     @Column(name = "name")
     private String fullName;
@@ -33,24 +32,14 @@ public class User implements UserDetails {
     private String position;
     @Transient
     private String empDate;
-    @Column(name = "role")
-    private String role;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "users_roles", schema = "app",
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_role", schema = "app",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles = new HashSet<>();
+    private Role role;
 
 
-    //  Roles
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-    public void setRoles(Collection<Role> roles) {
-//        this.role = roles.stream().findFirst().get().getName().name();
-        this.roles = roles;
-    }
 
     @Override
     public String toString() {
@@ -65,9 +54,10 @@ public class User implements UserDetails {
                 "},";
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return Collections.singleton(role);
     }
 
     @Override
