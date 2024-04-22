@@ -15,7 +15,7 @@ public class PresentApplication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "emp_id")
-    private Long empId;
+    private Long employeeId;
     @Column(name = "emp_email")
     private String email;
     @Column(name = "emp_name")
@@ -28,7 +28,7 @@ public class PresentApplication {
     @Transient
     private String position;
     @Transient
-    private String empDate;
+    private String employeeDate;
     @Column(name = "num_children")
     private int numChildren;
     @Transient
@@ -40,7 +40,6 @@ public class PresentApplication {
     @Column(name = "responsible_id")
     private Long responsibleId;
 
-//    @Transient
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "applications_statuses", schema = "app",
             joinColumns = @JoinColumn(name = "app_id"),
@@ -54,7 +53,7 @@ public class PresentApplication {
                 " date of birth = " + birthDate + ",\n" +
                 " phone number = " + phoneNumber + ",\n" +
                 " position = " + position + ",\n" +
-                " date of emplacement = " + empDate + ",\n" +
+                " date of emplacement = " + employeeDate + ",\n" +
                 " number of children = " + numChildren + ",\n" +
                 " files = " + filesRef + ",\n" +
                 " comment = " + commentChildren + ",\n" +

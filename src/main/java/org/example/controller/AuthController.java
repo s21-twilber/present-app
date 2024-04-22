@@ -18,7 +18,7 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUser)
-            throws AppError {
+             {
         return authService.createNewUser(registrationUser);
     }
 

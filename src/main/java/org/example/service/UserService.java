@@ -15,9 +15,9 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
     User createNewUser(RegistrationUserDto registrationUser);
     List<User> getAll();
-    void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder);
-    Optional<User> findByEmail(String email);
-    Optional<User> findById(Long id);
+    User findByEmail(String email);
+    User findById(Long id);
     List<User> findByRoleUser(RolesEnum role);
-    List<User> findByRoleCoordinator(RolesEnum role) throws AppError;
+    List<User> findByRoleCoordinator(RolesEnum role);
+    Boolean existsEmail(String email);
 }

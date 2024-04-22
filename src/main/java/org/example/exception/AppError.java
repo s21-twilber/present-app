@@ -1,16 +1,19 @@
 package org.example.exception;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
 @Data
-public class AppError extends Throwable {
-    private int status;
+@NoArgsConstructor
+public class AppError {
+    private HttpStatus status;
     private String message;
     private Date timestamp;
 
-    public AppError(int status, String message) {
+    public AppError(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
         this.timestamp = new Date();

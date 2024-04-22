@@ -1,22 +1,24 @@
 package org.example.service;
 
 import org.example.dto.PresentDto;
-import org.example.enums.StatusesEnum;
+import org.example.entity.PresentApplication;
 import org.example.exception.AppError;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 
 public interface ApplicationService {
 
-    ResponseEntity<?> createNewApplication(PresentDto app, Long userId) throws AppError;
+    PresentApplication createNewApplication(PresentDto app, Long userId);
 
-    void updateStatusApplication(Long id, String statusName) throws AppError;
+    void updateStatusApplication(Long id, String statusName);
 
-    ResponseEntity<?> getRepository(Long userId);
+    List<PresentApplication> getRepository(Long userId);
 
-    ResponseEntity<?> getCoordinatorRepository(Long userId);
+    List<PresentApplication> getCoordinatorApplications(Long userId);
 
-    ResponseEntity<?> getUserApplication(Long userId, Long appId);
+    PresentApplication getUserApplication(Long userId, Long appId);
 
-    ResponseEntity<?> getUserApplication(Long appId);
+    PresentApplication getUserApplication(Long appId);
 }

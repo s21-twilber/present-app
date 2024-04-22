@@ -40,13 +40,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.roleService = roleService;
     }
 
-    @Override
     @Autowired
     public void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
 
+    @Override
     public User createNewUser(RegistrationUserDto registrationUser)  {
         User user = new User();
         user.setEmail(registrationUser.getEmail());
@@ -66,35 +66,43 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User findByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException("User not found"));
+        return user;
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-            return userRepository.findById(id);
+    public User findById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new UsernameNotFoundException("User not found"));
+            return user;
     }
 
 
     @Override
     public List<User> findByRoleUser(RolesEnum role) {
-        return userRepository.findUsersByRole(roleService.getUserRole());
+        List<User> users = userRepository.findUsersByRole(roleService.getUserRole()).orElseThrow(() ->
+                new UsernameNotFoundException("Users not found"));
+        return users;
     }
 
     @Override
-    public List<User> findByRoleCoordinator(RolesEnum role) throws AppError {
-        try {
-            return userRepository.findUsersByRole(roleService.getCoordinatorRole());
-        } catch (BadCredentialsException e) {
-            throw new AppError(HttpStatus.GATEWAY_TIMEOUT.value(),
-                    "Отсутствуют координаторы");
-        }
+    public List<User> findByRoleCoordinator(RolesEnum role)   {
+        List<User> users = userRepository.findUsersByRole(roleService.getCoordinatorRole()).orElseThrow(() ->
+                new UsernameNotFoundException("Coordinators not found"));
+            return users;
+    }
+
+    @Override
+    public Boolean existsEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return user;
     }
 }

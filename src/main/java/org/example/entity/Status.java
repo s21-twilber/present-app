@@ -22,9 +22,9 @@ public class Status {
     @Enumerated(EnumType.STRING)
     private StatusesEnum name;
 
-    @Transient
-    @OneToMany(mappedBy = "statuses")
-    private Set<PresentApplication> present;
+//    @Transient
+//    @OneToMany(mappedBy = "statuses")
+//    private Set<PresentApplication> present;
 
 
     public Status(StatusesEnum name) {

@@ -7,6 +7,7 @@ import org.example.entity.Status;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
 import org.example.exception.AppError;
+import org.example.exception.NotFoundException;
 import org.example.repository.ApplicationRepository;
 import org.example.service.ApplicationService;
 import org.example.service.StatusService;
@@ -35,11 +36,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public ResponseEntity<?> createNewApplication(PresentDto presentDto, Long userId) throws AppError {
+    public PresentApplication createNewApplication(PresentDto presentDto, Long userId) {
         PresentApplication tmp = new PresentApplication();
-        try {
-            User user = userService.findById(userId).get();
-            tmp.setEmpId(user.getId());
+            User user = userService.findById(userId);
+            tmp.setEmployeeId(user.getId());
             tmp.setEmail(user.getEmail());
             tmp.setFullName(user.getFullName());
             tmp.setBirthDate(user.getBirthDate());
@@ -51,46 +51,38 @@ public class ApplicationServiceImpl implements ApplicationService {
             tmp.setResponsibleId(responsible.getId());
             PresentApplication present = applicationRepository.save(tmp);
             log.info("Create new present application id = {}", present.getId());
-            return ResponseEntity.ok(present);
-
-        } catch (BadCredentialsException e) {
-            throw new AppError(HttpStatus.BAD_REQUEST.value(),
-                    "Не найден пользователь");
-        }
+            return present;
     }
 
     @Override
-    public void updateStatusApplication(Long id, String statusName) throws AppError {
-        try {
-            Optional<PresentApplication> app = applicationRepository.findById(id);
+    public void updateStatusApplication(Long id, String statusName) {
+            PresentApplication app = applicationRepository.findById(id).orElseThrow(() ->
+                    new NotFoundException("Заявка не найдена"));
             Status status = statusService.getStatus(statusName);
-            app.get().setStatus(status);
-            applicationRepository.save(app.get());
-            log.info("Update status of present application {}", app.get().getStatus());
-        } catch (BadCredentialsException e) {
-            throw new AppError(HttpStatus.BAD_REQUEST.value(),
-                    "Не найдена заявка");
-        }
+            app.setStatus(status);
+            applicationRepository.save(app);
+            log.info("Update status of present application {}", app.getStatus());
     }
 
     @Override
-    public ResponseEntity<?> getRepository(Long userId) {
-        return ResponseEntity.ok(applicationRepository.findAllByEmpId(userId));
+    public List<PresentApplication> getRepository(Long userId) {
+        return applicationRepository.findAllByEmployeeId(userId);
     }
 
     @Override
-    public ResponseEntity<?> getCoordinatorRepository(Long userId) {
-        return ResponseEntity.ok(applicationRepository.findAllByResponsibleId(userId));
+    public List<PresentApplication> getCoordinatorApplications(Long userId) {
+        return applicationRepository.findAllByResponsibleId(userId);
     }
 
     @Override
-    public ResponseEntity<?> getUserApplication(Long userId, Long appId) {
-        return ResponseEntity.ok(applicationRepository.findByEmpIdAndId(userId, appId));
+    public PresentApplication getUserApplication(Long userId, Long appId) {
+        return applicationRepository.findByEmployeeIdAndId(userId, appId).orElseThrow(() ->
+                new NotFoundException("Заявка не найдена"));
     }
 
     @Override
-    public ResponseEntity<?> getUserApplication(Long appId) {
-        return ResponseEntity.ok(applicationRepository.findById(appId));
+    public PresentApplication getUserApplication(Long appId) {
+        return applicationRepository.findById(appId).get();
     }
 
 
