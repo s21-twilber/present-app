@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(authenticationFailureHandler)
                 .and()
                 .formLogin().permitAll()
-                .loginPage("/login");
+                .loginPage("/login").and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
         http
                 .csrf().disable()
                 .authorizeRequests()

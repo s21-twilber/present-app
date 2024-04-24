@@ -18,4 +18,6 @@ public interface ApplicationRepository extends JpaRepository<PresentApplication,
 
     Optional<PresentApplication> findById(Long id);
 
+    void deletePresentApplicationById(Long id);
+
 }

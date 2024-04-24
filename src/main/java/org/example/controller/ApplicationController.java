@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PresentDto;
 import org.example.entity.PresentApplication;
@@ -12,6 +14,7 @@ import java.security.Principal;
 import java.util.List;
 
 
+@Tag(name = "Application controller")
 @RestController
 @RequiredArgsConstructor
 public class ApplicationController {
@@ -20,6 +23,7 @@ public class ApplicationController {
     private final UserService userService;
 
 
+    @Operation(summary = "Получение реестра заявок текущего пользователя")
     @GetMapping("/registry")
     public List<PresentApplication> getApplications(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
@@ -27,6 +31,7 @@ public class ApplicationController {
     }
 
 
+    @Operation(summary = "Создание новой заявки")
     @PostMapping("/registry/create")
     public PresentApplication createApplication(Principal principal, @RequestBody PresentDto application)
              {
@@ -34,6 +39,7 @@ public class ApplicationController {
         return applicationService.createNewApplication(application, userId);
     }
 
+    @Operation(summary = "Просмотр заявки")
     @GetMapping("/registry/{appId}")
     public PresentApplication getApplicationById(Principal principal, @PathVariable Long appId) {
         Long userId = userService.findByEmail(principal.getName()).getId();

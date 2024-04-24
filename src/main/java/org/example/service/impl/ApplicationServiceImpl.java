@@ -65,6 +65,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public void deleteApplication(Long id) {
+        applicationRepository.deletePresentApplicationById(id);
+    }
+
+    @Override
     public List<PresentApplication> getRepository(Long userId) {
         return applicationRepository.findAllByEmployeeId(userId);
     }

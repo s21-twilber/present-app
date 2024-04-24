@@ -14,6 +14,8 @@ public interface ApplicationService {
 
     void updateStatusApplication(Long id, String statusName);
 
+    void deleteApplication(Long id);
+
     List<PresentApplication> getRepository(Long userId);
 
     List<PresentApplication> getCoordinatorApplications(Long userId);
