@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PresentDto;
-import org.example.entity.PresentApplication;
+import org.example.entity.Present;
 import org.example.service.UserService;
-import org.example.service.impl.ApplicationServiceImpl;
-import org.example.view.PresentApplicationView;
+import org.example.service.impl.PresentServiceImpl;
+import org.example.view.PresentView;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
@@ -18,13 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicationController {
 
-    private final ApplicationServiceImpl applicationService;
+    private final PresentServiceImpl applicationService;
     private final UserService userService;
 
 
     @Operation(summary = "Получение реестра заявок текущего пользователя")
     @GetMapping("/registry")
-    public List<PresentApplication> getApplications(Principal principal) {
+    public List<Present> getApplications(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
         return applicationService.getRepository(userId);
     }
@@ -32,18 +32,19 @@ public class ApplicationController {
 
     @Operation(summary = "Создание новой заявки")
     @PostMapping("/registry/create")
-    public PresentApplication createApplication(Principal principal, @RequestBody PresentDto application)
+    public PresentView createApplication(Principal principal, @RequestBody PresentDto application)
              {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        return applicationService.createNewApplication(application, userId);
+        Present present = applicationService.createNewPresent(application, userId);
+        return new PresentView(present);
     }
 
     @Operation(summary = "Просмотр заявки")
     @GetMapping("/registry/{appId}")
-    public PresentApplicationView getApplicationById(Principal principal, @PathVariable Long appId) {
+    public PresentView getApplicationById(Principal principal, @PathVariable Long appId) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        PresentApplication application = applicationService.getUserApplication(userId, appId);
-        return new PresentApplicationView(application);
+        Present application = applicationService.getUserPresent(userId, appId);
+        return new PresentView(application);
     }
 
 }

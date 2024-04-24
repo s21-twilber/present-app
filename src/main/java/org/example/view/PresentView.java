@@ -2,11 +2,11 @@ package org.example.view;
 
 
 import lombok.Data;
-import org.example.entity.PresentApplication;
+import org.example.entity.Present;
 
 
 @Data
-public class PresentApplicationView {
+public class PresentView {
 
     private String email;
     private String fullName;
@@ -21,7 +21,7 @@ public class PresentApplicationView {
     private Long responsibleId;
     private String status;
 
-    public PresentApplicationView(PresentApplication application) {
+    public PresentView(Present application) {
         this.email = application.getEmail();
         this.fullName = application.getFullName();
         this.birthDate = application.getBirthDate();
@@ -33,7 +33,6 @@ public class PresentApplicationView {
         this.filesRef = application.getFilesRef();
         this.finalPhoto = application.getFinalPhoto();
         this.responsibleId = application.getResponsibleId();
-        System.out.println(application.getStatus());
         this.status = application.getStatus().name();
     }
 }

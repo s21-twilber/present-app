@@ -3,8 +3,8 @@ INSERT INTO app.roles (name)
 VALUES ('ROLE_USER'), ('ROLE_ADMIN'), ('ROLE_COORDINATOR'), ('ROLE_ACCOUNTANT');
 
 INSERT INTO app.statuses (name)
-VALUES 	('draft'), ('under_consideration'), ('approved'), ('approved_by_coordinator'),
-          ('approved_by_accountant'), ('denied'), ('granted'), ('received');
+VALUES 	('DRAFT'), ('UNDER_CONSIDERATION'), ('APPROVED'), ('APPROVED_BY_COORDINATOR'),
+          ('APPROVED_BY_ACCOUNTANT'), ('DENIED'), ('GRANTED'), ('RECEIVED');
 
 INSERT INTO app.children (number)
 VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9), (10);

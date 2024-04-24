@@ -53,7 +53,7 @@ CREATE TABLE if not exists app.users_role
 );
 
 
-CREATE TABLE if not exists app.present_application
+CREATE TABLE if not exists app.present
 (
     id SERIAL PRIMARY KEY UNIQUE,
     emp_id BIGINT,
@@ -71,7 +71,7 @@ CREATE TABLE if not exists app.present_application
     responsible_id BIGINT,
     comment_status VARCHAR(200),
     app_type VARCHAR(30) default 'gifts',
-    status VARCHAR(30) NOT NULL default 'under_consideration',
+    status VARCHAR(30) NOT NULL default 'UNDER_CONSIDERATION',
     app_date DATE NOT NULL default current_date,
 
     FOREIGN KEY (num_children) REFERENCES app.children(number),

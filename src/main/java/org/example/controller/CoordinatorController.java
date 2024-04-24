@@ -3,9 +3,9 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.entity.PresentApplication;
+import org.example.entity.Present;
 import org.example.service.UserService;
-import org.example.service.impl.ApplicationServiceImpl;
+import org.example.service.impl.PresentServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -17,34 +17,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CoordinatorController {
 
-    private final ApplicationServiceImpl applicationService;
+    private final PresentServiceImpl applicationService;
     private final UserService userService;
 
 
     @Operation(summary = "Просмотр заявок ответствееного координатора")
     @GetMapping("/cregistry")
-    public List<PresentApplication> getCoordinatorRegistry(Principal principal) {
+    public List<Present> getCoordinatorRegistry(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        return applicationService.getCoordinatorApplications(userId);
+        return applicationService.getCoordinatorPresents(userId);
     }
 
     @Operation(summary = "Просмотр заявки координатора")
     @GetMapping("/cregistry/{appId}")
-    public PresentApplication getApplicationById(@PathVariable Long appId) {
-        return applicationService.getUserApplication(appId);
+    public Present getApplicationById(@PathVariable Long appId) {
+        return applicationService.getUserPresent(appId);
     }
 
     @Operation(summary = "Изменение статуса заявки")
     @PatchMapping("/cregistry/{appId}")
-    public PresentApplication updateStatusApplicationById(@PathVariable Long appId, @RequestBody String status) {
-        applicationService.updateStatusApplication(appId, status);
-        return applicationService.getUserApplication(appId);
+    public Present updateStatusApplicationById(@PathVariable Long appId, @RequestBody String status) {
+        applicationService.updateStatusPresent(appId, status);
+        return applicationService.getUserPresent(appId);
     }
 
     @Operation(summary = "Удаление заявки")
     @DeleteMapping("/cregistry/{appId}")
     public void updateStatusApplicationById(@PathVariable Long appId) {
-        applicationService.deleteApplication(appId);
+        applicationService.deletePresent(appId);
     }
 
 

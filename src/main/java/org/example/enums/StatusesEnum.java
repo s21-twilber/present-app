@@ -1,12 +1,12 @@
 package org.example.enums;
 
 public enum StatusesEnum {
-    draft,
-    under_consideration,
-    approved,
-    approved_by_coordinator,
-    approved_by_accountant,
-    denied,
-    granted,
-    received
+    DRAFT,
+    UNDER_CONSIDERATION,
+    APPROVED,
+    APPROVED_BY_COORDINATOR,
+    APPROVED_BY_ACCOUNTANT,
+    DENIED,
+    GRANTED,
+    RECEIVED
 }
