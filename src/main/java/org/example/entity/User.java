@@ -28,6 +28,7 @@ public class User implements UserDetails {
     private String birthDate;
     @Column(name = "tel_number")
     private String phoneNumber;
+//    @Column(name = "position")
     @Transient
     private String position;
     @Transient

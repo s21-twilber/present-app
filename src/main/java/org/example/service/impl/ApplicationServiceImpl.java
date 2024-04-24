@@ -3,22 +3,16 @@ package org.example.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.PresentDto;
 import org.example.entity.PresentApplication;
-import org.example.entity.Status;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
-import org.example.exception.AppError;
+import org.example.enums.StatusesEnum;
 import org.example.exception.NotFoundException;
 import org.example.repository.ApplicationRepository;
 import org.example.service.ApplicationService;
-import org.example.service.StatusService;
 import org.example.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Slf4j
@@ -27,13 +21,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private final ApplicationRepository applicationRepository;
     private final UserService userService;
-    private final StatusService statusService;
 
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository, UserService userService, StatusService statusService) {
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository, UserService userService) {
         this.applicationRepository = applicationRepository;
         this.userService = userService;
-        this.statusService = statusService;
     }
+
 
     @Override
     public PresentApplication createNewApplication(PresentDto presentDto, Long userId) {
@@ -45,6 +38,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             tmp.setBirthDate(user.getBirthDate());
             tmp.setPhoneNumber(presentDto.getPhoneNumber());
             tmp.setNumChildren(presentDto.getNumChildren());
+            tmp.setFilesRef(presentDto.getFilesRef());
             Random rand = new Random();
             List<User> coordinators = userService.findByRoleCoordinator(RolesEnum.ROLE_COORDINATOR);
             User responsible = coordinators.get(rand.nextInt(coordinators.size()));
@@ -58,8 +52,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void updateStatusApplication(Long id, String statusName) {
             PresentApplication app = applicationRepository.findById(id).orElseThrow(() ->
                     new NotFoundException("Заявка не найдена"));
-            Status status = statusService.getStatus(statusName);
-            app.setStatus(status);
+        app.setStatus(Enum.valueOf(StatusesEnum.class, statusName));
             applicationRepository.save(app);
             log.info("Update status of present application {}", app.getStatus());
     }
@@ -81,6 +74,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public PresentApplication getUserApplication(Long userId, Long appId) {
+        System.out.println(applicationRepository.findById(appId).get().toString());
+
         return applicationRepository.findByEmployeeIdAndId(userId, appId).orElseThrow(() ->
                 new NotFoundException("Заявка не найдена"));
     }

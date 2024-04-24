@@ -9,5 +9,6 @@ public class PresentDto {
 
     private String phoneNumber;
     private int numChildren;
+    private String filesRef;
 
 }

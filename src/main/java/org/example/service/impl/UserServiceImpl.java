@@ -4,13 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.dto.RegistrationUserDto;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
-import org.example.exception.AppError;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

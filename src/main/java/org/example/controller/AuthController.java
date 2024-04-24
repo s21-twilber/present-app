@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.RegistrationUserDto;
-import org.example.dto.Request;
+import org.example.dto.UserRequest;
 import org.example.service.impl.AuthServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class AuthController {
 
     @Operation(summary = "Вход в систему")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, value = "/login")
-    public void login(@RequestBody Request request) {
+    public void login(@RequestBody UserRequest request) {
     }
 
     @Operation(summary = "Выход из системы")

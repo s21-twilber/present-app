@@ -2,8 +2,6 @@ package org.example.service;
 
 import org.example.dto.PresentDto;
 import org.example.entity.PresentApplication;
-import org.example.exception.AppError;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

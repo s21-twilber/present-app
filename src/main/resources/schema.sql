@@ -75,17 +75,9 @@ CREATE TABLE if not exists app.present_application
     app_date DATE NOT NULL default current_date,
 
     FOREIGN KEY (num_children) REFERENCES app.children(number),
-    FOREIGN KEY (emp_id) REFERENCES app.users(id)
-);
-
-
-CREATE TABLE if not exists app.applications_statuses
-(
-    app_id BIGINT,
-    status_id INT,
-
-    FOREIGN KEY (status_id) REFERENCES app.statuses(id),
-    FOREIGN KEY (app_id) REFERENCES app.present_application(id)
+    FOREIGN KEY (emp_id) REFERENCES app.users(id),
+    FOREIGN KEY (status) REFERENCES app.statuses(name),
+    FOREIGN KEY (emp_position) REFERENCES app.positions(name)
 );
 
 

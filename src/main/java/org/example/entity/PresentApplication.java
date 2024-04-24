@@ -2,6 +2,7 @@ package org.example.entity;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.example.enums.StatusesEnum;
 
 import javax.persistence.*;
 
@@ -20,8 +21,7 @@ public class PresentApplication {
     private String email;
     @Column(name = "emp_name")
     private String fullName;
-//    @Column(name = "emp_date_of_birth")
-    @Transient
+    @Column(name = "emp_date_of_birth")
     private String birthDate;
     @Column(name = "emp_tel_number")
     private String phoneNumber;
@@ -40,11 +40,8 @@ public class PresentApplication {
     @Column(name = "responsible_id")
     private Long responsibleId;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "applications_statuses", schema = "app",
-            joinColumns = @JoinColumn(name = "app_id"),
-            inverseJoinColumns = @JoinColumn(name = "status_id"))
-    private Status status;
+    @Enumerated(EnumType.STRING)
+    private StatusesEnum status;
 
 
     @Override
@@ -57,7 +54,9 @@ public class PresentApplication {
                 " number of children = " + numChildren + ",\n" +
                 " files = " + filesRef + ",\n" +
                 " comment = " + commentChildren + ",\n" +
+                " status = " + status.name() + ",\n" +
                 " photo = " + finalPhoto +
                 "},";
     }
+
 }

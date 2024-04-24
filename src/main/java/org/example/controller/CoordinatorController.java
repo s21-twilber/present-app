@@ -4,10 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.entity.PresentApplication;
-import org.example.exception.AppError;
 import org.example.service.UserService;
 import org.example.service.impl.ApplicationServiceImpl;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;

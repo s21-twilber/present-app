@@ -5,10 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.PresentDto;
 import org.example.entity.PresentApplication;
-import org.example.exception.AppError;
 import org.example.service.UserService;
 import org.example.service.impl.ApplicationServiceImpl;
-import org.springframework.http.ResponseEntity;
+import org.example.view.PresentApplicationView;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
@@ -41,9 +40,10 @@ public class ApplicationController {
 
     @Operation(summary = "Просмотр заявки")
     @GetMapping("/registry/{appId}")
-    public PresentApplication getApplicationById(Principal principal, @PathVariable Long appId) {
+    public PresentApplicationView getApplicationById(Principal principal, @PathVariable Long appId) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        return applicationService.getUserApplication(userId, appId);
+        PresentApplication application = applicationService.getUserApplication(userId, appId);
+        return new PresentApplicationView(application);
     }
 
 }
