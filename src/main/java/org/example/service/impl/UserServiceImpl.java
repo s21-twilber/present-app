@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setRole(roleService.getUserRole());
         user.setFullName(registrationUser.getFullName());
 
-        log.info("Create new user {}", user);
+        log.info("Create new user {}", user.getEmail());
 
         return userRepository.save(user);
     }
@@ -95,8 +95,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByEmail(email).isPresent();
     }
 
+
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return user;

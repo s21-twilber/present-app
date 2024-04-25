@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PresentDto {
 
-    private String phoneNumber;
     private int numChildren;
+    private String commentChildren;
     private String filesRef;
+    private String finalPhoto;
 
 }

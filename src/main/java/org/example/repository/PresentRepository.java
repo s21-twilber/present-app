@@ -12,11 +12,11 @@ public interface PresentRepository extends JpaRepository<Present, Long> {
 
     Present save(Present app);
 
-    List<Present> findAllByEmployeeId(Long id);
+    List<Present> findAllByEmployee_Id(Long id);
 
     List<Present> findAllByResponsibleId(Long id);
 
-    Optional<Present> findByEmployeeIdAndId(Long empId, Long id);
+    Optional<Present> findByEmployee_IdAndId(Long empId, Long id);
 
     Optional<Present> findById(Long id);
 

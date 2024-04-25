@@ -27,12 +27,12 @@ public class AuthServiceImpl implements AuthService {
 
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUser) {
         if (!registrationUser.getPassword().equals(registrationUser.getConfirmPassword())) {
-            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST, "Пароли не совпадают"),
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST, "Passwords don't match"),
                     HttpStatus.BAD_REQUEST);
         }
         if (userService.existsEmail(registrationUser.getEmail())) {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST,
-                    "Пользователь с указанным адресом электронной почты уже существует"),
+                    "User with this email address already exists"),
                     HttpStatus.BAD_REQUEST);
         }
         User user = userService.createNewUser(registrationUser);

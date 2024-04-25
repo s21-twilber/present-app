@@ -22,12 +22,12 @@ public class PresentView {
     private String status;
 
     public PresentView(Present application) {
-        this.email = application.getEmail();
-        this.fullName = application.getFullName();
-        this.birthDate = application.getBirthDate();
-        this.phoneNumber = application.getPhoneNumber();
-        this.position = application.getPosition();
-        this.employeeDate = application.getEmployeeDate();
+        this.email = application.getEmployee().getEmail();
+        this.fullName = application.getEmployee().getFullName();
+        this.birthDate = application.getEmployee().getBirthDate();
+        this.phoneNumber = application.getEmployee().getPhoneNumber();
+        this.position = application.getEmployee().getPosition();
+        this.employeeDate = application.getEmployee().getEmployeeDate();
         this.numChildren = application.getNumChildren();
         this.commentChildren = application.getCommentChildren();
         this.filesRef = application.getFilesRef();

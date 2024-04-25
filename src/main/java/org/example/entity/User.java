@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 
 @Entity
 @NoArgsConstructor
@@ -32,7 +31,7 @@ public class User implements UserDetails {
     @Transient
     private String position;
     @Transient
-    private String empDate;
+    private String employeeDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_role", schema = "app",
@@ -50,7 +49,7 @@ public class User implements UserDetails {
                 " email = " + email + ",\n" +
                 " phone number = " + phoneNumber + ",\n" +
                 " position = " + position + ",\n" +
-                " date of emplacement = " + empDate + ",\n" +
+                " date of emplacement = " + employeeDate + ",\n" +
                 "roles = " + role + "\n" +
                 "},";
     }

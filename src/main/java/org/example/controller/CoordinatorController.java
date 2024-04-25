@@ -17,34 +17,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CoordinatorController {
 
-    private final PresentServiceImpl applicationService;
+    private final PresentServiceImpl presentService;
     private final UserService userService;
 
 
     @Operation(summary = "Просмотр заявок ответствееного координатора")
-    @GetMapping("/cregistry")
-    public List<Present> getCoordinatorRegistry(Principal principal) {
+    @GetMapping("/crepository")
+    public List<Present> getCoordinatorPresents(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        return applicationService.getCoordinatorPresents(userId);
+        return presentService.getCoordinatorPresents(userId);
     }
 
     @Operation(summary = "Просмотр заявки координатора")
-    @GetMapping("/cregistry/{appId}")
-    public Present getApplicationById(@PathVariable Long appId) {
-        return applicationService.getUserPresent(appId);
+    @GetMapping("/crepository/{appId}")
+    public Present getPresentById(@PathVariable Long appId) {
+        return presentService.getUserPresent(appId);
     }
 
     @Operation(summary = "Изменение статуса заявки")
-    @PatchMapping("/cregistry/{appId}")
-    public Present updateStatusApplicationById(@PathVariable Long appId, @RequestBody String status) {
-        applicationService.updateStatusPresent(appId, status);
-        return applicationService.getUserPresent(appId);
+    @PatchMapping("/crepository/{appId}")
+    public Present updatePresentStatusById(@PathVariable Long appId, @RequestBody String status) {
+        presentService.updateStatusPresent(appId, status);
+        return presentService.getUserPresent(appId);
     }
 
     @Operation(summary = "Удаление заявки")
-    @DeleteMapping("/cregistry/{appId}")
-    public void updateStatusApplicationById(@PathVariable Long appId) {
-        applicationService.deletePresent(appId);
+    @DeleteMapping("/crepository/{appId}")
+    public void updatePresentStatusById(@PathVariable Long appId) {
+        presentService.deletePresent(appId);
     }
 
 

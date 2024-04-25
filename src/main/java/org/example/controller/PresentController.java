@@ -13,37 +13,36 @@ import java.security.Principal;
 import java.util.List;
 
 
-@Tag(name = "Application controller")
+@Tag(name = "Present controller")
 @RestController
 @RequiredArgsConstructor
-public class ApplicationController {
+public class PresentController {
 
-    private final PresentServiceImpl applicationService;
+    private final PresentServiceImpl presentService;
     private final UserService userService;
 
 
     @Operation(summary = "Получение реестра заявок текущего пользователя")
-    @GetMapping("/registry")
-    public List<Present> getApplications(Principal principal) {
+    @GetMapping("/repository")
+    public List<Present> getPresents(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        return applicationService.getRepository(userId);
+        return presentService.getRepository(userId);
     }
 
 
     @Operation(summary = "Создание новой заявки")
-    @PostMapping("/registry/create")
-    public PresentView createApplication(Principal principal, @RequestBody PresentDto application)
+    @PostMapping("/repository/create")
+    public PresentView createPresent(Principal principal, @RequestBody PresentDto application)
              {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        Present present = applicationService.createNewPresent(application, userId);
+        Present present = presentService.createNewPresent(application, userId);
         return new PresentView(present);
     }
 
     @Operation(summary = "Просмотр заявки")
-    @GetMapping("/registry/{appId}")
-    public PresentView getApplicationById(Principal principal, @PathVariable Long appId) {
-        Long userId = userService.findByEmail(principal.getName()).getId();
-        Present application = applicationService.getUserPresent(userId, appId);
+    @GetMapping("/repository/{presentId}")
+    public PresentView getPresentById(Principal principal, @PathVariable Long presentId) {
+        Present application = presentService.getUserPresent(presentId);
         return new PresentView(application);
     }
 

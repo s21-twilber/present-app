@@ -56,13 +56,13 @@ CREATE TABLE if not exists app.users_role
 CREATE TABLE if not exists app.present
 (
     id SERIAL PRIMARY KEY UNIQUE,
-    emp_id BIGINT,
-    emp_name VARCHAR(100) NOT NULL,
-    emp_date_of_birth VARCHAR(50),
-    emp_email VARCHAR(50) NOT NULL,
-    emp_tel_number VARCHAR(50) NOT NULL,
-    emp_position VARCHAR(30) NOT NULL default 'Должность_1',
-    emp_date DATE NOT NULL default current_date,
+    employee_id BIGINT,
+--     emp_name VARCHAR(100) NOT NULL,
+--     emp_date_of_birth VARCHAR(50),
+--     emp_email VARCHAR(50) NOT NULL,
+--     emp_tel_number VARCHAR(50) NOT NULL,
+--     emp_position VARCHAR(30) NOT NULL default 'Должность_1',
+--     emp_date DATE NOT NULL default current_date,
     num_children INT NOT NULL default 0,
     files_ref TEXT[],
     addfiles_ref TEXT[],
@@ -75,9 +75,8 @@ CREATE TABLE if not exists app.present
     app_date DATE NOT NULL default current_date,
 
     FOREIGN KEY (num_children) REFERENCES app.children(number),
-    FOREIGN KEY (emp_id) REFERENCES app.users(id),
-    FOREIGN KEY (status) REFERENCES app.statuses(name),
-    FOREIGN KEY (emp_position) REFERENCES app.positions(name)
+    FOREIGN KEY (employee_id) REFERENCES app.users(id),
+    FOREIGN KEY (status) REFERENCES app.statuses(name)
 );
 
 

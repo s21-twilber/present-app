@@ -1,6 +1,7 @@
 package org.example.config;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
                                         AuthenticationException exception)
             throws IOException, ServletException {
 
-        response.sendError(404);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
     }
 }

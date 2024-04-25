@@ -32,11 +32,7 @@ public class PresentServiceImpl implements PresentService {
     public Present createNewPresent(PresentDto presentDto, Long userId) {
         Present tmp = new Present();
             User user = userService.findById(userId);
-            tmp.setEmployeeId(user.getId());
-            tmp.setEmail(user.getEmail());
-            tmp.setFullName(user.getFullName());
-            tmp.setBirthDate(user.getBirthDate());
-            tmp.setPhoneNumber(presentDto.getPhoneNumber());
+            tmp.setEmployee(user);
             tmp.setNumChildren(presentDto.getNumChildren());
             tmp.setFilesRef(presentDto.getFilesRef());
             tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
@@ -52,10 +48,12 @@ public class PresentServiceImpl implements PresentService {
     @Override
     public void updateStatusPresent(Long id, String statusName) {
             Present app = repository.findById(id).orElseThrow(() ->
-                    new NotFoundException("Заявка не найдена"));
-        app.setStatus(StatusesEnum.valueOf(statusName));
-            repository.save(app);
-            log.info("Update status of present application {}", app.getStatus());
+                    new NotFoundException("Application not found"));
+            if (app.getStatus() != StatusesEnum.RECEIVED) {
+                app.setStatus(StatusesEnum.valueOf(statusName));
+                repository.save(app);
+                log.info("Update status of present application {}", app.getStatus());
+            }
     }
 
     @Override
@@ -65,7 +63,9 @@ public class PresentServiceImpl implements PresentService {
 
     @Override
     public List<Present> getRepository(Long userId) {
-        return repository.findAllByEmployeeId(userId);
+        List<Present> list = repository.findAllByEmployee_Id(userId);
+        return list;
+
     }
 
     @Override
@@ -73,17 +73,11 @@ public class PresentServiceImpl implements PresentService {
         return repository.findAllByResponsibleId(userId);
     }
 
-    @Override
-    public Present getUserPresent(Long userId, Long appId) {
-        System.out.println(repository.findById(appId).get().toString());
-
-        return repository.findByEmployeeIdAndId(userId, appId).orElseThrow(() ->
-                new NotFoundException("Заявка не найдена"));
-    }
 
     @Override
     public Present getUserPresent(Long appId) {
-        return repository.findById(appId).get();
+        return repository.findById(appId).orElseThrow(() ->
+                new NotFoundException("Application not found"));
     }
 
 

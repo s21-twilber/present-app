@@ -18,7 +18,5 @@ public interface PresentService {
 
     List<Present> getCoordinatorPresents(Long userId);
 
-    Present getUserPresent(Long userId, Long appId);
-
     Present getUserPresent(Long appId);
 }

@@ -33,12 +33,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Optional<? extends GrantedAuthority> auth = authorities.stream()
-                .filter(a -> a.getAuthority().equals("ROLE_COORDINATOR")).findFirst();
+                .filter(a -> a.getAuthority().equals("ROLE_COORDINATOR")
+                        || a.getAuthority().equals("ROLE_ACCOUNTANT")).findFirst();
         if (auth.isPresent()) {
-            response.sendRedirect("/cregistry");
+            response.sendRedirect("/crepository");
         } else {
             response
-                    .sendRedirect("/registry");
+                    .sendRedirect("/repository");
         }
 
     }
