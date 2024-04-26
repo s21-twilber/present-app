@@ -11,6 +11,7 @@ import org.example.view.PresentView;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Tag(name = "Present controller")
@@ -24,9 +25,10 @@ public class PresentController {
 
     @Operation(summary = "Получение реестра заявок текущего пользователя")
     @GetMapping("/repository")
-    public List<Present> getPresents(Principal principal) {
+    public List<PresentView> getPresents(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        return presentService.getRepository(userId);
+        List<PresentView> list = presentService.getRepository(userId);
+        return list;
     }
 
 

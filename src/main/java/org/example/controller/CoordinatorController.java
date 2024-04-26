@@ -25,6 +25,7 @@ public class CoordinatorController {
     @GetMapping("/crepository")
     public List<Present> getCoordinatorPresents(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
+        System.out.println(principal.toString());
         return presentService.getCoordinatorPresents(userId);
     }
 

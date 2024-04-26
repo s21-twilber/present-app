@@ -20,3 +20,20 @@ VALUES ('user', '$2a$10$6xnFuaslRfe9aqF1aWid5uxq.D7bdxi6r5alhTyGpkrUtD.Egd0Ai', 
 INSERT INTO app.users_role (user_id, role_id)
 VALUES (1, 3);
 
+
+
+INSERT INTO app.users (name, password, email, role)
+VALUES ('count', '$2a$10$6xnFuaslRfe9aqF1aWid5uxq.D7bdxi6r5alhTyGpkrUtD.Egd0Ai', 'count', 'ROLE_ACCOUNTANT');
+
+INSERT INTO app.users_role (user_id, role_id)
+VALUES (2, 4);
+
+
+
+INSERT INTO app.users (name, password, email, role)
+VALUES ('aa', '$2a$10$6xnFuaslRfe9aqF1aWid5uxq.D7bdxi6r5alhTyGpkrUtD.Egd0Ai', 'aa', 'ROLE_USER');
+
+INSERT INTO app.users_role (user_id, role_id)
+VALUES (3, 1);
+
+

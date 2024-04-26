@@ -21,10 +21,6 @@ public class Role implements GrantedAuthority {
 
     @Enumerated(EnumType.STRING)
     private RolesEnum name;
-//
-//    @Transient
-//    @OneToMany(mappedBy = "roles")
-//    private Set<User> users;
 
     @Override
     public String getAuthority() {

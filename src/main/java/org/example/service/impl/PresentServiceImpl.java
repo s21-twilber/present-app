@@ -9,9 +9,12 @@ import org.example.enums.StatusesEnum;
 import org.example.exception.NotFoundException;
 import org.example.repository.PresentRepository;
 import org.example.service.PresentService;
+import org.example.service.RoleService;
 import org.example.service.UserService;
+import org.example.view.PresentView;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -21,10 +24,12 @@ public class PresentServiceImpl implements PresentService {
 
     private final PresentRepository repository;
     private final UserService userService;
+    private final RoleService roleService;
 
-    public PresentServiceImpl(PresentRepository repository, UserService userService) {
+    public PresentServiceImpl(PresentRepository repository, UserService userService, RoleService roleService) {
         this.repository = repository;
         this.userService = userService;
+        this.roleService = roleService;
     }
 
 
@@ -62,15 +67,23 @@ public class PresentServiceImpl implements PresentService {
     }
 
     @Override
-    public List<Present> getRepository(Long userId) {
+    public List<PresentView> getRepository(Long userId) {
         List<Present> list = repository.findAllByEmployee_Id(userId);
-        return list;
+        List<PresentView> res = new ArrayList<>();
+        for(Present l : list) {
+            PresentView view = new PresentView(l);
+            res.add(view);
+        }
+        return res;
 
     }
 
     @Override
     public List<Present> getCoordinatorPresents(Long userId) {
-        return repository.findAllByResponsibleId(userId);
+        if (userService.findById(userId).getRole() == roleService.getCoordinatorRole()) {
+            return repository.findAllByResponsibleIdAndStatus(userId, StatusesEnum.UNDER_CONSIDERATION);
+        }
+        return repository.findAllByResponsibleIdAndStatus(userId, StatusesEnum.APPROVED_BY_COORDINATOR);
     }
 
 
