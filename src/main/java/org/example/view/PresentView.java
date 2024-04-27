@@ -18,7 +18,8 @@ public class PresentView {
     private String commentChildren;
     private String filesRef;
     private String finalPhoto;
-    private Long responsibleId;
+    private Long coordinatorId;
+    private Long accountantId;
     private String status;
 
     public PresentView(Present application) {
@@ -32,7 +33,8 @@ public class PresentView {
         this.commentChildren = application.getCommentChildren();
         this.filesRef = application.getFilesRef();
         this.finalPhoto = application.getFinalPhoto();
-        this.responsibleId = application.getResponsibleId();
+        this.coordinatorId = application.getCoordinatorId();
+        this.accountantId = application.getAccountantId();
         this.status = application.getStatus().name();
     }
 }

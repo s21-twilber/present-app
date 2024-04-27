@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = new User();
         user.setEmail(registrationUser.getEmail());
         user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
-        user.setRole(roleService.getUserRole());
+        user.setRole(roleService.getRole(RolesEnum.ROLE_USER));
         user.setFullName(registrationUser.getFullName());
 
         log.info("Create new user {}", user.getEmail());
@@ -77,18 +77,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public List<User> findByRoleUser(RolesEnum role) {
-        List<User> users = userRepository.findUsersByRole(roleService.getUserRole()).orElseThrow(() ->
+    public List<User> findByRole(RolesEnum role) {
+        List<User> users = userRepository.findUsersByRole(roleService.getRole(role)).orElseThrow(() ->
                 new UsernameNotFoundException("Users not found"));
         return users;
     }
 
-    @Override
-    public List<User> findByRoleCoordinator(RolesEnum role)   {
-        List<User> users = userRepository.findUsersByRole(roleService.getCoordinatorRole()).orElseThrow(() ->
-                new UsernameNotFoundException("Coordinators not found"));
-            return users;
-    }
 
     @Override
     public Boolean existsEmail(String email) {

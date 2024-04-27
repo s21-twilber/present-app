@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.entity.Present;
 import org.example.service.UserService;
 import org.example.service.impl.PresentServiceImpl;
+import org.example.view.PresentView;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -15,21 +16,20 @@ import java.util.List;
 @Tag(name = "Coordinator Controller")
 @RestController
 @RequiredArgsConstructor
-public class CoordinatorController {
+public class ResponsibleController {
 
     private final PresentServiceImpl presentService;
     private final UserService userService;
 
 
-    @Operation(summary = "Просмотр заявок ответствееного координатора")
+    @Operation(summary = "Просмотр заявок ответствееного координатора или бухгалтера")
     @GetMapping("/crepository")
-    public List<Present> getCoordinatorPresents(Principal principal) {
+    public List<PresentView> getResponsiblePresents(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        System.out.println(principal.toString());
-        return presentService.getCoordinatorPresents(userId);
+        return presentService.getResponsiblePresents(userId);
     }
 
-    @Operation(summary = "Просмотр заявки координатора")
+    @Operation(summary = "Просмотр заявки координатора или бухгалтера")
     @GetMapping("/crepository/{appId}")
     public Present getPresentById(@PathVariable Long appId) {
         return presentService.getUserPresent(appId);

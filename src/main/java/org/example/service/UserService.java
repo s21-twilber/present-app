@@ -13,7 +13,6 @@ public interface UserService extends UserDetailsService {
     List<User> getAll();
     User findByEmail(String email);
     User findById(Long id);
-    List<User> findByRoleUser(RolesEnum role);
-    List<User> findByRoleCoordinator(RolesEnum role);
+    List<User> findByRole(RolesEnum role);
     Boolean existsEmail(String email);
 }

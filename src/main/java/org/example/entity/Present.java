@@ -25,8 +25,10 @@ public class Present {
     private String filesRef;
     @Transient
     private String finalPhoto;
-    @Column(name = "responsible_id")
-    private Long responsibleId;
+    @Column(name = "coordinator_id")
+    private Long coordinatorId;
+    @Column(name = "accountant_id")
+    private Long accountantId;
     @Enumerated(EnumType.STRING)
     private StatusesEnum status;
 

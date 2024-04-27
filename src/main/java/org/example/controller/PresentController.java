@@ -27,7 +27,7 @@ public class PresentController {
     @GetMapping("/repository")
     public List<PresentView> getPresents(Principal principal) {
         Long userId = userService.findByEmail(principal.getName()).getId();
-        List<PresentView> list = presentService.getRepository(userId);
+        List<PresentView> list = presentService.getUserPresents(userId);
         return list;
     }
 

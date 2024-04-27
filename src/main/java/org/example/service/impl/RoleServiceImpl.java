@@ -16,11 +16,8 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role getUserRole() {
-        return roleRepository.findRoleByName(RolesEnum.valueOf("ROLE_USER")).get();
+    public Role getRole(RolesEnum role) {
+        return roleRepository.findRoleByName(role).get();
     }
 
-    public Role getCoordinatorRole() {
-        return roleRepository.findRoleByName(RolesEnum.valueOf("ROLE_COORDINATOR")).get();
-    }
 }

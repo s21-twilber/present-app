@@ -15,9 +15,13 @@ public interface PresentService {
 
     void deletePresent(Long id);
 
-    List<PresentView> getRepository(Long userId);
+    List<PresentView> getAllPresents();
 
-    List<Present> getCoordinatorPresents(Long userId);
+    List<PresentView> getUserPresents(Long userId);
+
+    List<PresentView> getResponsiblePresents(Long userId);
 
     Present getUserPresent(Long appId);
+
+    void findResponsibles(Present present);
 }

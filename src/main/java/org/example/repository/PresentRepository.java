@@ -15,11 +15,11 @@ public interface PresentRepository extends JpaRepository<Present, Long> {
 
     List<Present> findAllByEmployee_Id(Long id);
 
-    List<Present> findAllByResponsibleId(Long id);
+    List<Present> findAll();
 
-    List<Present> findAllByResponsibleIdAndStatus(Long id, StatusesEnum status);
+    List<Present> findAllByCoordinatorIdAndStatus(Long id, StatusesEnum status);
 
-    Optional<Present> findByEmployee_IdAndId(Long empId, Long id);
+    List<Present> findAllByAccountantIdAndStatus(Long id, StatusesEnum status);
 
     Optional<Present> findById(Long id);
 

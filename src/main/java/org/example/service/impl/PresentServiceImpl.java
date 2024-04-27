@@ -41,10 +41,8 @@ public class PresentServiceImpl implements PresentService {
             tmp.setNumChildren(presentDto.getNumChildren());
             tmp.setFilesRef(presentDto.getFilesRef());
             tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
-            Random rand = new Random();
-            List<User> coordinators = userService.findByRoleCoordinator(RolesEnum.ROLE_COORDINATOR);
-            User responsible = coordinators.get(rand.nextInt(coordinators.size()));
-            tmp.setResponsibleId(responsible.getId());
+            // настроить
+            findResponsibles(tmp);
             Present present = repository.save(tmp);
             log.info("Create new present application id = {}", present.getId());
             return present;
@@ -67,7 +65,18 @@ public class PresentServiceImpl implements PresentService {
     }
 
     @Override
-    public List<PresentView> getRepository(Long userId) {
+    public List<PresentView> getAllPresents() {
+        List<Present> list = repository.findAll();
+        List<PresentView> res = new ArrayList<>();
+        for(Present l : list) {
+            PresentView view = new PresentView(l);
+            res.add(view);
+        }
+        return res;
+    }
+
+    @Override
+    public List<PresentView> getUserPresents(Long userId) {
         List<Present> list = repository.findAllByEmployee_Id(userId);
         List<PresentView> res = new ArrayList<>();
         for(Present l : list) {
@@ -79,11 +88,17 @@ public class PresentServiceImpl implements PresentService {
     }
 
     @Override
-    public List<Present> getCoordinatorPresents(Long userId) {
-        if (userService.findById(userId).getRole() == roleService.getCoordinatorRole()) {
-            return repository.findAllByResponsibleIdAndStatus(userId, StatusesEnum.UNDER_CONSIDERATION);
+    public List<PresentView> getResponsiblePresents(Long userId) {
+        List<Present> list = repository.findAllByCoordinatorIdAndStatus(userId, StatusesEnum.UNDER_CONSIDERATION);
+        if (userService.findById(userId).getRole() == roleService.getRole(RolesEnum.ROLE_ACCOUNTANT)) {
+            list = repository.findAllByAccountantIdAndStatus(userId, StatusesEnum.APPROVED_BY_COORDINATOR);
         }
-        return repository.findAllByResponsibleIdAndStatus(userId, StatusesEnum.APPROVED_BY_COORDINATOR);
+        List<PresentView> res = new ArrayList<>();
+        for(Present l : list) {
+            PresentView view = new PresentView(l);
+            res.add(view);
+        }
+        return res;
     }
 
 
@@ -91,6 +106,17 @@ public class PresentServiceImpl implements PresentService {
     public Present getUserPresent(Long appId) {
         return repository.findById(appId).orElseThrow(() ->
                 new NotFoundException("Application not found"));
+    }
+
+    @Override
+    public void findResponsibles(Present present) {
+        Random rand = new Random();
+        List<User> coordinators = userService.findByRole(RolesEnum.ROLE_COORDINATOR);
+        User coordinator = coordinators.get(rand.nextInt(coordinators.size()));
+        present.setCoordinatorId(coordinator.getId());
+        List<User> accountants = userService.findByRole(RolesEnum.ROLE_ACCOUNTANT);
+        User accountant = accountants.get(rand.nextInt(accountants.size()));
+        present.setAccountantId(accountant.getId());
     }
 
 
