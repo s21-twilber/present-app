@@ -48,4 +48,10 @@ public class PresentController {
         return new PresentView(application);
     }
 
+    @Operation(summary = "Удаление заявки")
+    @DeleteMapping("/repository/{presentId}")
+    public void deletePresentById(@PathVariable Long presentId) {
+        presentService.deletePresent(presentId);
+    }
+
 }

@@ -30,22 +30,22 @@ public class ResponsibleController {
     }
 
     @Operation(summary = "Просмотр заявки координатора или бухгалтера")
-    @GetMapping("/crepository/{appId}")
-    public Present getPresentById(@PathVariable Long appId) {
-        return presentService.getUserPresent(appId);
+    @GetMapping("/crepository/{presentId}")
+    public Present getPresentById(@PathVariable Long presentId) {
+        return presentService.getUserPresent(presentId);
     }
 
     @Operation(summary = "Изменение статуса заявки")
-    @PatchMapping("/crepository/{appId}")
-    public Present updatePresentStatusById(@PathVariable Long appId, @RequestBody String status) {
-        presentService.updateStatusPresent(appId, status);
-        return presentService.getUserPresent(appId);
+    @PatchMapping("/crepository/{presentId}")
+    public Present updatePresentStatusById(@PathVariable Long presentId, @RequestBody String status) {
+        presentService.updateStatusPresent(presentId, status);
+        return presentService.getUserPresent(presentId);
     }
 
     @Operation(summary = "Удаление заявки")
-    @DeleteMapping("/crepository/{appId}")
-    public void updatePresentStatusById(@PathVariable Long appId) {
-        presentService.deletePresent(appId);
+    @DeleteMapping("/crepository/{presentId}")
+    public void deletePresentById(@PathVariable Long presentId) {
+        presentService.deletePresent(presentId);
     }
 
 

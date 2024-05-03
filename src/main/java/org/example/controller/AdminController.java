@@ -8,7 +8,6 @@ import org.example.service.PresentService;
 import org.example.view.PresentView;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @Tag(name = "Admin")
@@ -25,22 +24,22 @@ public class AdminController {
     }
 
     @Operation(summary = "Просмотр конкретной заявки")
-    @GetMapping("/admin/{appId}")
-    public Present getPresentById(@PathVariable Long appId) {
-        return presentService.getUserPresent(appId);
+    @GetMapping("/admin/{presentId}")
+    public Present getPresentById(@PathVariable Long presentId) {
+        return presentService.getUserPresent(presentId);
     }
 
     @Operation(summary = "Изменение статуса заявки")
-    @PatchMapping("/admin/{appId}")
-    public Present updatePresentStatusById(@PathVariable Long appId, @RequestBody String status) {
-        presentService.updateStatusPresent(appId, status);
-        return presentService.getUserPresent(appId);
+    @PatchMapping("/admin/{presentId}")
+    public Present updatePresentStatusById(@PathVariable Long presentId, @RequestBody String status) {
+        presentService.updateStatusPresent(presentId, status);
+        return presentService.getUserPresent(presentId);
     }
 
     @Operation(summary = "Удаление заявки")
-    @DeleteMapping("/admin/{appId}")
-    public void updatePresentStatusById(@PathVariable Long appId) {
-        presentService.deletePresent(appId);
+    @DeleteMapping("/admin/{presentId}")
+    public void updatePresentStatusById(@PathVariable Long presentId) {
+        presentService.deletePresent(presentId);
     }
 
 
