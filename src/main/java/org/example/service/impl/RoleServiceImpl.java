@@ -20,4 +20,8 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findRoleByName(role).get();
     }
 
+    public Role getRoleById(int id) {
+        return roleRepository.findRoleById(id).get();
+    }
+
 }

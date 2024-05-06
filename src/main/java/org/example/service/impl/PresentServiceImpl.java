@@ -39,7 +39,7 @@ public class PresentServiceImpl implements PresentService {
             User user = userService.findById(userId);
             tmp.setEmployee(user);
             tmp.setNumChildren(presentDto.getNumChildren());
-            tmp.setFilesRef(presentDto.getFilesRef());
+//            tmp.setFilesRef(presentDto.getFilesRef());
             tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
             // настроить
             findResponsibles(tmp);
@@ -57,6 +57,16 @@ public class PresentServiceImpl implements PresentService {
                 repository.save(app);
                 log.info("Update status of present application {}", app.getStatus());
             }
+    }
+
+    @Override
+    public void updateResponsiblePresent(Long id, Long coordId, Long accId) {
+        Present app = repository.findById(id).orElseThrow(() ->
+                new NotFoundException("Application not found"));
+        app.setCoordinatorId(coordId);
+        app.setAccountantId(accId);
+        repository.save(app);
+        log.info("Update status of present application {}", app.getStatus());
     }
 
     @Override
@@ -118,6 +128,8 @@ public class PresentServiceImpl implements PresentService {
         User accountant = accountants.get(rand.nextInt(accountants.size()));
         present.setAccountantId(accountant.getId());
     }
+
+
 
 
 }

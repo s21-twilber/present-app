@@ -13,6 +13,7 @@ public class PresentView {
     private String birthDate;
     private String phoneNumber;
     private String position;
+    private String department;
     private String employeeDate;
     private int numChildren;
     private String commentChildren;
@@ -28,6 +29,7 @@ public class PresentView {
         this.birthDate = application.getEmployee().getBirthDate();
         this.phoneNumber = application.getEmployee().getPhoneNumber();
         this.position = application.getEmployee().getPosition();
+        this.department = application.getEmployee().getDepartment();
         this.employeeDate = application.getEmployee().getEmployeeDate();
         this.numChildren = application.getNumChildren();
         this.commentChildren = application.getCommentChildren();

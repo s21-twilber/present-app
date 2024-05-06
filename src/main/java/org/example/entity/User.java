@@ -1,6 +1,5 @@
 package org.example.entity;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,12 +24,10 @@ public class User implements UserDetails {
     private String fullName;
     @Column(name = "date_of_birth")
     private String birthDate;
-    @Column(name = "tel_number")
+    @Column(name = "ph_number")
     private String phoneNumber;
-//    @Column(name = "position")
-    @Transient
     private String position;
-    @Transient
+    private String department;
     private String employeeDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

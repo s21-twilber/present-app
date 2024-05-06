@@ -14,5 +14,6 @@ public interface UserService extends UserDetailsService {
     User findByEmail(String email);
     User findById(Long id);
     List<User> findByRole(RolesEnum role);
+    List<User> findByRole(int roleId);
     Boolean existsEmail(String email);
 }

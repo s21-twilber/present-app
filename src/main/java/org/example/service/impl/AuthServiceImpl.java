@@ -36,6 +36,6 @@ public class AuthServiceImpl implements AuthService {
                     HttpStatus.BAD_REQUEST);
         }
         User user = userService.createNewUser(registrationUser);
-        return ResponseEntity.ok(new UserResponse(user.getId(), user.getEmail()));
+        return ResponseEntity.ok(new UserResponse(user.getId(), user.getEmail(), user.getRole().getName().name()));
     }
 }

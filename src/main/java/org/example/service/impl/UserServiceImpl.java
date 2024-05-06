@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
         user.setRole(roleService.getRole(RolesEnum.ROLE_USER));
         user.setFullName(registrationUser.getFullName());
+        user.setDepartment(registrationUser.getDepartment());
+        user.setPosition(registrationUser.getPosition());
+        user.setBirthDate(registrationUser.getBirthDate());
+        user.setEmployeeDate(registrationUser.getEmployeeDate());
+        user.setPhoneNumber(registrationUser.getPhoneNumber());
 
         log.info("Create new user {}", user.getEmail());
 
@@ -78,6 +83,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> findByRole(RolesEnum role) {
         List<User> users = userRepository.findUsersByRole(roleService.getRole(role)).orElseThrow(() ->
+                new UsernameNotFoundException("Users not found"));
+        return users;
+    }
+
+    @Override
+    public List<User> findByRole(int roleId) {
+        List<User> users = userRepository.findUsersByRole(roleService.getRoleById(roleId)).orElseThrow(() ->
                 new UsernameNotFoundException("Users not found"));
         return users;
     }

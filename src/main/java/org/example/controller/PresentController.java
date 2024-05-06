@@ -8,10 +8,10 @@ import org.example.entity.Present;
 import org.example.service.UserService;
 import org.example.service.impl.PresentServiceImpl;
 import org.example.view.PresentView;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Tag(name = "Present controller")
@@ -33,7 +33,7 @@ public class PresentController {
 
 
     @Operation(summary = "Создание новой заявки")
-    @PostMapping("/repository/create")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, value = "/repository/create")
     public PresentView createPresent(Principal principal, @RequestBody PresentDto application)
              {
         Long userId = userService.findByEmail(principal.getName()).getId();

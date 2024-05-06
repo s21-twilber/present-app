@@ -13,6 +13,8 @@ public interface PresentService {
 
     void updateStatusPresent(Long id, String statusName);
 
+    void updateResponsiblePresent(Long id, Long coordId, Long accId);
+
     void deletePresent(Long id);
 
     List<PresentView> getAllPresents();

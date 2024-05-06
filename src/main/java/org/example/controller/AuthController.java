@@ -5,6 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.RegistrationUserDto;
 import org.example.dto.UserRequest;
+import org.example.dto.UserResponse;
+import org.example.entity.User;
+import org.example.service.UserService;
 import org.example.service.impl.AuthServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthController {
 
     private final AuthServiceImpl authService;
+    private final UserService userService;
 
     @Operation(summary = "Регистрация нового пользователя")
     @PostMapping("/registration")
@@ -42,8 +46,41 @@ public class AuthController {
         }
     }
 
+
+    @Operation(summary = "Получение пользователя")
     @GetMapping("/")
-    public void hello() {
+    public ResponseEntity<?> getUser(HttpServletRequest request) {
+        User user = userService.findByEmail(request.getRemoteUser());
+        if (user != null) {
+            return ResponseEntity.ok(new UserResponse(user.getId(), user.getEmail(), user.getRole().getName().name()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @Operation(summary = "Получение данных пользователя")
+    @GetMapping("/user")
+    public ResponseEntity<?> getUserInfo(HttpServletRequest request) {
+        User user = userService.findByEmail(request.getRemoteUser());
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @Operation(summary = "Изменение данных пользователя")
+    @PatchMapping("/user")
+    public ResponseEntity<?> updateUserInfo(HttpServletRequest request) {
+        User user = userService.findByEmail(request.getRemoteUser());
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }
