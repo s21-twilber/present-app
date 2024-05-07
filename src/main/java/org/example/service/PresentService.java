@@ -4,12 +4,13 @@ import org.example.dto.PresentDto;
 import org.example.entity.Present;
 import org.example.view.PresentView;
 
+import java.io.IOException;
 import java.util.List;
 
 
 public interface PresentService {
 
-    Present createNewPresent(PresentDto app, Long userId);
+    Present createNewPresent(PresentDto app, Long userId) throws IOException;
 
     void updateStatusPresent(Long id, String statusName);
 

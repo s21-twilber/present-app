@@ -8,12 +8,14 @@ import org.example.enums.RolesEnum;
 import org.example.enums.StatusesEnum;
 import org.example.exception.NotFoundException;
 import org.example.repository.PresentRepository;
+import org.example.service.FileService;
 import org.example.service.PresentService;
 import org.example.service.RoleService;
 import org.example.service.UserService;
 import org.example.view.PresentView;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,22 +27,24 @@ public class PresentServiceImpl implements PresentService {
     private final PresentRepository repository;
     private final UserService userService;
     private final RoleService roleService;
+    private final FileService fileService;
 
-    public PresentServiceImpl(PresentRepository repository, UserService userService, RoleService roleService) {
+    public PresentServiceImpl(PresentRepository repository, UserService userService, RoleService roleService, FileService fileService) {
         this.repository = repository;
         this.userService = userService;
         this.roleService = roleService;
+        this.fileService = fileService;
     }
 
 
     @Override
-    public Present createNewPresent(PresentDto presentDto, Long userId) {
+    public Present createNewPresent(PresentDto presentDto, Long userId) throws IOException {
         Present tmp = new Present();
             User user = userService.findById(userId);
             tmp.setEmployee(user);
             tmp.setNumChildren(presentDto.getNumChildren());
-//            tmp.setFilesRef(presentDto.getFilesRef());
             tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
+            tmp.setFilesRef(fileService.upload(presentDto.getFile()));
             // настроить
             findResponsibles(tmp);
             Present present = repository.save(tmp);

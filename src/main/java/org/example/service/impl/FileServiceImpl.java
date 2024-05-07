@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -20,12 +22,20 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileInfo upload(MultipartFile file) throws IOException {
-        fileManager.upload(file.getBytes(), generateKey(file.getOriginalFilename()));
-        return FileInfo.builder()
-                .name(file.getOriginalFilename())
-                .size(file.getSize())
-                .build();
+    public List<String> upload(MultipartFile[] file) throws IOException {
+        List<String> files = new ArrayList<>();
+        for (MultipartFile f : file) {
+            String key = generateKey(f.getOriginalFilename());
+            fileManager.upload(f.getBytes(), key);
+            FileInfo createdFile = FileInfo.builder()
+                    .name(f.getOriginalFilename())
+                    .key(key)
+                    .size(f.getSize())
+                    .build();
+
+            files.add(createdFile.getKey());
+        }
+        return files;
     }
 
     private String generateKey(String name) {

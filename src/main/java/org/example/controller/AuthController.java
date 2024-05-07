@@ -33,8 +33,12 @@ public class AuthController {
     }
 
     @Operation(summary = "Вход в систему")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, value = "/login")
+    @PostMapping(value = "/login", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void login(@RequestBody UserRequest request) {
+    }
+
+    @GetMapping(value = "/login")
+    public void login() {
     }
 
     @Operation(summary = "Выход из системы")

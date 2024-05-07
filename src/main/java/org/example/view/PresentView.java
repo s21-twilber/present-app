@@ -4,6 +4,8 @@ package org.example.view;
 import lombok.Data;
 import org.example.entity.Present;
 
+import java.util.List;
+
 
 @Data
 public class PresentView {
@@ -17,7 +19,7 @@ public class PresentView {
     private String employeeDate;
     private int numChildren;
     private String commentChildren;
-    private String filesRef;
+    private List<String> filesRef;
     private String finalPhoto;
     private Long coordinatorId;
     private Long accountantId;

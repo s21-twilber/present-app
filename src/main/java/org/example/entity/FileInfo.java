@@ -10,10 +10,11 @@ import javax.persistence.GenerationType;
 @Data
 public class FileInfo {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
+
+    private String key;
 
     private Long size;
 }

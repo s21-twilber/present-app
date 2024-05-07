@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.enums.StatusesEnum;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @RequiredArgsConstructor
@@ -21,8 +22,9 @@ public class Present {
     private int numChildren;
     @Transient
     private String commentChildren;
-    @Transient
-    private String filesRef;
+    @Column(name = "files_ref")
+    @ElementCollection(targetClass=String.class)
+    private List<String> filesRef;
     @Transient
     private String finalPhoto;
     @Column(name = "coordinator_id")

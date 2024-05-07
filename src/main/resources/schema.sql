@@ -60,7 +60,7 @@ CREATE TABLE if not exists app.present
     employee_id BIGINT,
     num_children INT NOT NULL default 0,
     child_name VARCHAR(100),
-    files_ref TEXT[],
+    files_ref VARCHAR(100)[],
     addfiles_ref TEXT[],
     comment_children VARCHAR(200),
     final_photo TEXT[],
