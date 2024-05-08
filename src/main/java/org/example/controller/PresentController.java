@@ -3,19 +3,22 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.example.config.FileManagerConfiguration;
 import org.example.dto.PresentDto;
 import org.example.entity.Present;
 import org.example.service.FileService;
 import org.example.service.UserService;
 import org.example.service.impl.PresentServiceImpl;
 import org.example.view.PresentView;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,4 +62,14 @@ public class PresentController {
         presentService.deletePresent(presentId);
     }
 
+    @GetMapping(path = "/repository/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<Resource> download(@PathVariable("id") Long id) throws IOException {
+        List<String> foundFile = fileService.findAllFilesByPresentId(id);
+        List<Resource> res = new ArrayList<>();
+        for (String f : foundFile) {
+                Resource resource = fileService.download(f);
+                res.add(resource);
+        }
+        return ResponseEntity.ok().body(res.get(0));
+    }
 }

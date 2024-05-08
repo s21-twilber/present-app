@@ -31,7 +31,7 @@ CREATE TABLE if not exists app.users
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
-    password VARCHAR(100),
+    password VARCHAR(100) NOT NULL,
     date_of_birth VARCHAR(50),
     email VARCHAR(50) NOT NULL UNIQUE,
     ph_number VARCHAR(50),

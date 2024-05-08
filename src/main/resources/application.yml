@@ -22,3 +22,6 @@ spring:
   sql:
     init:
       mode: embedded
+
+file:
+  directory: ${UserProfile}\\Desktop\\

@@ -2,7 +2,11 @@ package org.example.service.impl;
 
 import org.example.config.FileManagerConfiguration;
 import org.example.entity.FileInfo;
+import org.example.entity.Present;
 import org.example.service.FileService;
+import org.example.service.PresentService;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +20,11 @@ import java.util.List;
 public class FileServiceImpl implements FileService {
 
     private final FileManagerConfiguration fileManager;
+    private final PresentService presentService;
 
-    public FileServiceImpl(FileManagerConfiguration fileManager) {
+    public FileServiceImpl(FileManagerConfiguration fileManager, @Lazy PresentService presentService) {
         this.fileManager = fileManager;
+        this.presentService = presentService;
     }
 
     @Override
@@ -36,6 +42,18 @@ public class FileServiceImpl implements FileService {
             files.add(createdFile.getKey());
         }
         return files;
+    }
+
+    @Override
+    public List<String> findAllFilesByPresentId(Long id) {
+
+        Present present = presentService.getUserPresent(id);
+        return present.getFilesRef();
+    }
+
+    @Override
+    public Resource download(String key) throws IOException {
+        return fileManager.download(key);
     }
 
     private String generateKey(String name) {
