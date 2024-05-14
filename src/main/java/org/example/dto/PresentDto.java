@@ -11,6 +11,5 @@ public class PresentDto {
     private int numChildren;
     private String commentChildren;
     private MultipartFile[] file;
-    private String finalPhoto;
 
 }

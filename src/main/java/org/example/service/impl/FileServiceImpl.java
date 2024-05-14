@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -28,8 +28,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<String> upload(MultipartFile[] file) throws IOException {
-        List<String> files = new ArrayList<>();
+    public Set<String> upload(MultipartFile[] file) throws IOException {
+        Set<String> files = new HashSet<>();
         for (MultipartFile f : file) {
             String key = generateKey(f.getOriginalFilename());
             fileManager.upload(f.getBytes(), key);
@@ -45,7 +45,20 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<String> findAllFilesByPresentId(Long id) {
+    public String upload(MultipartFile file) throws IOException {
+        String key = generateKey(file.getOriginalFilename());
+        fileManager.upload(file.getBytes(), key);
+        FileInfo createdFile = FileInfo.builder()
+                .name(file.getOriginalFilename())
+                .key(key)
+                .size(file.getSize())
+                .build();
+
+        return createdFile.getKey();
+    }
+
+    @Override
+    public Set<String> findAllFilesByPresentId(Long id) {
 
         Present present = presentService.getUserPresent(id);
         return present.getFilesRef();

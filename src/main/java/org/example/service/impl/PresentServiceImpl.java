@@ -14,6 +14,7 @@ import org.example.service.RoleService;
 import org.example.service.UserService;
 import org.example.view.PresentView;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,28 +55,41 @@ public class PresentServiceImpl implements PresentService {
 
     @Override
     public void updateStatusPresent(Long id, String statusName) {
-            Present app = repository.findById(id).orElseThrow(() ->
+            Present present = repository.findById(id).orElseThrow(() ->
                     new NotFoundException("Application not found"));
-            if (app.getStatus() != StatusesEnum.RECEIVED) {
-                app.setStatus(StatusesEnum.valueOf(statusName));
-                repository.save(app);
-                log.info("Update status of present application {}", app.getStatus());
+            if ((present.getStatus() != StatusesEnum.RECEIVED) ||
+                    (present.getStatus() != StatusesEnum.GRANTED)) {
+                present.setStatus(StatusesEnum.valueOf(statusName));
+                repository.save(present);
+                log.info("Update status of present application {}", present.getStatus());
             }
     }
 
     @Override
-    public void updateResponsiblePresent(Long id, Long coordId, Long accId) {
-        Present app = repository.findById(id).orElseThrow(() ->
+    public void updateFinalPhotoPresent(Long id, MultipartFile file) throws IOException {
+        Present present = repository.findById(id).orElseThrow(() ->
                 new NotFoundException("Application not found"));
-        app.setCoordinatorId(coordId);
-        app.setAccountantId(accId);
-        repository.save(app);
-        log.info("Update status of present application {}", app.getStatus());
+        if (present.getStatus() == StatusesEnum.GRANTED) {
+            present.setStatus(StatusesEnum.RECEIVED);
+            present.setFinalPhoto(fileService.upload(file));
+            repository.save(present);
+            log.info("Update status of present application {}", present.getStatus());
+        }
+    }
+
+    @Override
+    public void updateResponsiblePresent(Long id, Long coordId, Long accId) {
+        Present present = repository.findById(id).orElseThrow(() ->
+                new NotFoundException("Application not found"));
+        present.setCoordinatorId(coordId);
+        present.setAccountantId(accId);
+        repository.save(present);
+        log.info("Update responsible id of present application {}", present.getStatus());
     }
 
     @Override
     public void deletePresent(Long id) {
-        repository.deletePresentById(id);
+        repository.deleteById(id);
     }
 
     @Override

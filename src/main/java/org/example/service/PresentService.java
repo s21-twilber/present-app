@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.dto.PresentDto;
 import org.example.entity.Present;
 import org.example.view.PresentView;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +14,8 @@ public interface PresentService {
     Present createNewPresent(PresentDto app, Long userId) throws IOException;
 
     void updateStatusPresent(Long id, String statusName);
+
+    void updateFinalPhotoPresent(Long id, MultipartFile file) throws IOException;
 
     void updateResponsiblePresent(Long id, Long coordId, Long accId);
 

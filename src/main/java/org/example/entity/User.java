@@ -18,16 +18,24 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String password;
+
     private String email;
+
     @Column(name = "name")
     private String fullName;
+
     @Column(name = "date_of_birth")
     private String birthDate;
+
     @Column(name = "ph_number")
     private String phoneNumber;
+
     private String position;
+
     private String department;
+
     private String employeeDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

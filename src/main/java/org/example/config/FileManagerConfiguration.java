@@ -32,7 +32,7 @@ public class FileManagerConfiguration {
     public Resource download(String key) throws IOException {
         Path path = Paths.get(DIRECTORY_PATH + key);
         Resource resource = new UrlResource(path.toUri());
-        System.out.println(path);
+//        System.out.println(path);
         if (resource.exists() || resource.isReadable()) {
             return resource;
         } else {

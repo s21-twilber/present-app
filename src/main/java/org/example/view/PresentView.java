@@ -3,8 +3,10 @@ package org.example.view;
 
 import lombok.Data;
 import org.example.entity.Present;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -17,9 +19,10 @@ public class PresentView {
     private String position;
     private String department;
     private String employeeDate;
+    private String appDate;
     private int numChildren;
     private String commentChildren;
-    private List<String> filesRef;
+    private Set<String> filesRef;
     private String finalPhoto;
     private Long coordinatorId;
     private Long accountantId;
@@ -33,6 +36,7 @@ public class PresentView {
         this.position = application.getEmployee().getPosition();
         this.department = application.getEmployee().getDepartment();
         this.employeeDate = application.getEmployee().getEmployeeDate();
+        this.appDate = application.getAppDate();
         this.numChildren = application.getNumChildren();
         this.commentChildren = application.getCommentChildren();
         this.filesRef = application.getFilesRef();

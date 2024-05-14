@@ -12,5 +12,5 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     Optional<Role> findRoleByName(RolesEnum name);
 
-    Optional<Role> findRoleById(int id);
+//    Optional<Role> findRoleById(int id);
 }

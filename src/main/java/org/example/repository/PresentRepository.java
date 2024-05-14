@@ -11,18 +11,18 @@ import java.util.Optional;
 @Repository
 public interface PresentRepository extends JpaRepository<Present, Long> {
 
-    Present save(Present app);
+//    Present save(Present app);
 
     List<Present> findAllByEmployee_Id(Long id);
 
-    List<Present> findAll();
+//    List<Present> findAll();
 
     List<Present> findAllByCoordinatorIdAndStatus(Long id, StatusesEnum status);
 
     List<Present> findAllByAccountantIdAndStatus(Long id, StatusesEnum status);
 
-    Optional<Present> findById(Long id);
+//    Optional<Present> findById(Long id);
 
-    void deletePresentById(Long id);
+//    void deletePresentById(Long id);
 
 }
