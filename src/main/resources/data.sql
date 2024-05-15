@@ -6,8 +6,6 @@ INSERT INTO app.statuses (name)
 VALUES 	('DRAFT'), ('UNDER_CONSIDERATION'), ('APPROVED'), ('APPROVED_BY_COORDINATOR'),
           ('APPROVED_BY_ACCOUNTANT'), ('DENIED'), ('GRANTED'), ('RECEIVED');
 
-INSERT INTO app.children (number)
-VALUES (0), (1), (2), (3), (4), (5), (6), (7), (8), (9), (10);
 
 INSERT INTO app.positions (id, name)
 VALUES 	(1, 'Должность_1'), (2, 'Должность_2'), (3, 'Должность_3'), (4, 'Должность_4'),

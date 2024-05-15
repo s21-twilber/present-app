@@ -20,10 +20,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: update
         default_schema: app
-    defer-datasource-initialization: true
+#    defer-datasource-initialization: true
   sql:
     init:
-      mode: embedded
+      mode: always
 
 file:
   directory: ${UserProfile}\\Desktop\\

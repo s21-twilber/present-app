@@ -3,7 +3,7 @@ package org.example.entity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.enums.StatusesEnum;
-import org.springframework.web.multipart.MultipartFile;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -24,12 +24,15 @@ public class Present {
     @Column(name = "num_children")
     private Integer numChildren;
 
+    @Column(name = "child_name")
+    private String fullName;
+
     @Transient
     private String commentChildren;
 
     @Column(name = "files_ref")
     @ElementCollection(targetClass=String.class)
-    private Set<String> filesRef = null;
+    private Set<String> filesRef;
 
     @Column(name = "final_photo")
     private String finalPhoto;

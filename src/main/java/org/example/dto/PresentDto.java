@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PresentDto {
 
     private int numChildren;
+    private String fullName;
     private String commentChildren;
     private MultipartFile[] file;
 
