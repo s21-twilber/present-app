@@ -46,7 +46,6 @@ public class PresentServiceImpl implements PresentService {
             tmp.setNumChildren(presentDto.getNumChildren());
             tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
             tmp.setFilesRef(fileService.upload(presentDto.getFile()));
-            // настроить
             findResponsibles(tmp);
             Present present = repository.save(tmp);
             log.info("Create new present application id = {}", present.getId());

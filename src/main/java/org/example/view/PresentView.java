@@ -1,13 +1,12 @@
 package org.example.view;
 
 
+import lombok.Builder;
 import lombok.Data;
 import org.example.entity.Present;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+
 import java.util.Set;
-
 
 @Data
 public class PresentView {

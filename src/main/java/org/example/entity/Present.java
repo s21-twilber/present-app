@@ -3,7 +3,6 @@ package org.example.entity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.enums.StatusesEnum;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -33,6 +32,7 @@ public class Present {
     @Column(name = "files_ref")
     @ElementCollection(targetClass=String.class)
     private Set<String> filesRef;
+
 
     @Column(name = "final_photo")
     private String finalPhoto;
