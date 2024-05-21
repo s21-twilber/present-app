@@ -3,8 +3,10 @@ package org.example.entity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.enums.StatusesEnum;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -33,7 +35,6 @@ public class Present {
     @ElementCollection(targetClass=String.class)
     private Set<String> filesRef;
 
-
     @Column(name = "final_photo")
     private String finalPhoto;
 
@@ -44,9 +45,14 @@ public class Present {
     private Long accountantId;
 
     @Column(name = "app_date")
-    private String appDate;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date appDate;
 
     @Enumerated(EnumType.STRING)
     private StatusesEnum status;
+
+    @Column(name = "comment_status")
+    private String commentStatus;
 
 }

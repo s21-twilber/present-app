@@ -2,8 +2,10 @@ package org.example.service.impl;
 
 import org.example.entity.Role;
 import org.example.enums.RolesEnum;
+import org.example.exception.NotFoundException;
 import org.example.repository.RoleRepository;
 import org.example.service.RoleService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +23,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     public Role getRoleById(int id) {
-        return roleRepository.findById(id).get();
+        return roleRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("Not found users with this role"));
     }
 
 }

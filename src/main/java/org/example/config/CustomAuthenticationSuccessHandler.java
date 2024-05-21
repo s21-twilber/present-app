@@ -32,14 +32,23 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             throws IOException, ServletException {
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Optional<? extends GrantedAuthority> auth = authorities.stream()
-                .filter(a -> a.getAuthority().equals("ROLE_COORDINATOR")
-                        || a.getAuthority().equals("ROLE_ACCOUNTANT")).findFirst();
-        if (auth.isPresent()) {
+        Optional<? extends GrantedAuthority> auth = authorities.stream().findFirst();
+        String grantedAuthority = auth.get().getAuthority();
+
+
+        if (grantedAuthority.equals("ROLE_COORDINATOR")
+                || grantedAuthority.equals("ROLE_ACCOUNTANT")) {
+
             response.sendRedirect("/crepository");
-        } else {
-            response
-                    .sendRedirect("/repository");
+
+        } else if (grantedAuthority.equals("ROLE_ADMIN")) {
+
+            response.sendRedirect("/admin");
+
+        } else if (grantedAuthority.equals("ROLE_USER")) {
+
+            response.sendRedirect("/repository");
+
         }
 
 

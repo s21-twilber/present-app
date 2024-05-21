@@ -13,7 +13,11 @@ public interface PresentService {
 
     Present createNewPresent(PresentDto app, Long userId) throws IOException;
 
+    Present updatePresent(PresentDto presentDto, Long presentId) throws IOException;
+
     void updateStatusPresent(Long id, String statusName);
+
+    void addStatusComment(Long id, String comment);
 
     void updateFinalPhotoPresent(Long id, MultipartFile file) throws IOException;
 

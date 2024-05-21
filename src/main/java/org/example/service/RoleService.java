@@ -7,4 +7,6 @@ import org.example.enums.RolesEnum;
 public interface RoleService {
 
     Role getRole(RolesEnum role);
+
+    Role getRoleById(int id);
 }

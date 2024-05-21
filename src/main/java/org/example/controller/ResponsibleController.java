@@ -3,17 +3,19 @@ package org.example.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.StatusDto;
 import org.example.entity.Present;
 import org.example.service.UserService;
 import org.example.service.impl.PresentServiceImpl;
 import org.example.view.PresentView;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
 
 
-@Tag(name = "Coordinator Controller")
+@Tag(name = "Responsible Controller")
 @RestController
 @RequiredArgsConstructor
 public class ResponsibleController {
@@ -37,9 +39,11 @@ public class ResponsibleController {
 
     @Operation(summary = "Изменение статуса заявки")
     @PatchMapping("/crepository/{presentId}")
-    public Present updatePresentStatusById(@PathVariable Long presentId, @RequestBody String status) {
-        presentService.updateStatusPresent(presentId, status);
-        return presentService.getUserPresent(presentId);
+    public ResponseEntity<?> updatePresentStatusById(@PathVariable Long presentId,
+                                                     @RequestBody(required = false) StatusDto statusDto) {
+        presentService.updateStatusPresent(presentId, statusDto.getStatus());
+        presentService.addStatusComment(presentId, statusDto.getCommentStatus());
+        return ResponseEntity.ok(presentService.getUserPresent(presentId));
     }
 
     @Operation(summary = "Удаление заявки")

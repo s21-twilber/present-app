@@ -9,20 +9,17 @@ import org.example.service.FileService;
 import org.example.service.PresentService;
 import org.example.service.UserService;
 import org.example.view.PresentView;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 
 @Tag(name = "Present controller")
@@ -52,6 +49,14 @@ public class PresentController {
         return new PresentView(present);
     }
 
+    @Operation(summary = "Изменение заявки")
+    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, value = "/repository/{presentId}")
+    public PresentView updatePresent(@PathVariable Long presentId,
+                                     PresentDto application) throws IOException {
+        Present present = presentService.updatePresent(application, presentId);
+        return new PresentView(present);
+    }
+
 //    @Operation(summary = "Просмотр заявки")
 //    @GetMapping("/repository/{presentId}")
 //    public PresentView getPresentById(@PathVariable Long presentId) {
@@ -72,23 +77,12 @@ public class PresentController {
         response.setContentType("Content-type: application/zip");
         response.setHeader("Content-Disposition",
                 "attachment; filename=download.zip");
-        ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream());
-        Set<String> foundFile = fileService.findAllFilesByPresentId(presentId);
-        for (String f : foundFile) {
-            Resource resource = fileService.download(f);
-            ZipEntry zipEntry = new ZipEntry(f);
-            zipEntry.setSize(foundFile.size());
-            zipOut.putNextEntry(zipEntry);
-            StreamUtils.copy(resource.getInputStream(), zipOut);
-            zipOut.closeEntry();
-        }
-        zipOut.finish();
-        zipOut.close();
+        fileService.download(response, presentId);
     }
 
     @Operation(summary = "Добавление фото")
-    @PostMapping(path = "/repository/{presentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addFinalPhoto(Long presentId, MultipartFile file) throws IOException {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/repository/{presentId}")
+    public ResponseEntity<?> addFinalPhoto(Long presentId, @ModelAttribute MultipartFile file) throws IOException {
         presentService.updateFinalPhotoPresent(presentId, file);
         return ResponseEntity.ok().build();
     }

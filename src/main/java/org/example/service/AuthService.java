@@ -7,4 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface AuthService {
 
     ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUser);
+
+
 }

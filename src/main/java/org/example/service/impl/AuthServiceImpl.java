@@ -2,12 +2,12 @@ package org.example.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.RegistrationUserDto;
-import org.example.dto.UserResponse;
 import org.example.entity.User;
 import org.example.exception.AppError;
 import org.example.repository.RoleRepository;
 import org.example.service.AuthService;
 import org.example.service.UserService;
+import org.example.view.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +36,10 @@ public class AuthServiceImpl implements AuthService {
                     HttpStatus.BAD_REQUEST);
         }
         User user = userService.createNewUser(registrationUser);
-        return ResponseEntity.ok(new UserResponse(user.getId(), user.getEmail(), user.getRole().getName().name()));
+        return ResponseEntity.ok(new UserResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getRole().getName().name()));
     }
+
 }

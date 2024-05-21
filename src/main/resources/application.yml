@@ -23,7 +23,7 @@ spring:
 #    defer-datasource-initialization: true
   sql:
     init:
-      mode: always
+#      mode: always
 
 file:
   directory: ${UserProfile}\\Desktop\\

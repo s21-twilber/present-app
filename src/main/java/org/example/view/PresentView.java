@@ -6,6 +6,7 @@ import lombok.Data;
 import org.example.entity.Present;
 
 
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -18,7 +19,7 @@ public class PresentView {
     private String position;
     private String department;
     private String employeeDate;
-    private String appDate;
+    private Date appDate;
     private int numChildren;
     private String commentChildren;
     private Set<String> filesRef;

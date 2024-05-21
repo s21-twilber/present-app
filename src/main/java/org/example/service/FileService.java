@@ -3,7 +3,9 @@ package org.example.service;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 
 public interface FileService {
@@ -12,8 +14,10 @@ public interface FileService {
 
     String upload(MultipartFile file) throws IOException;
 
-    Set<String> findAllFilesByPresentId(Long id);
+    Optional<Set<String>> findAllFilesByPresentId(Long id);
 
-    Resource download(String key) throws IOException;
+    void download(HttpServletResponse response, Long presentId) throws IOException;
+
+    Resource downloadFile(String key) throws IOException;
 
 }

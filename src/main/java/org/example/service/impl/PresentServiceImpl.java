@@ -53,6 +53,17 @@ public class PresentServiceImpl implements PresentService {
     }
 
     @Override
+    public Present updatePresent(PresentDto presentDto, Long presentId) throws IOException {
+        Present tmp = repository.findById(presentId).get();
+        tmp.setNumChildren(presentDto.getNumChildren());
+        tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
+        tmp.setFilesRef(fileService.upload(presentDto.getFile()));
+        Present present = repository.save(tmp);
+        log.info("Update present application id = {}", present.getId());
+        return present;
+    }
+
+    @Override
     public void updateStatusPresent(Long id, String statusName) {
             Present present = repository.findById(id).orElseThrow(() ->
                     new NotFoundException("Application not found"));
@@ -62,6 +73,17 @@ public class PresentServiceImpl implements PresentService {
                 repository.save(present);
                 log.info("Update status of present application {}", present.getStatus());
             }
+    }
+
+    @Override
+    public void addStatusComment(Long id, String comment) {
+        Present present = repository.findById(id).orElseThrow(() ->
+                new NotFoundException("Application not found"));
+        if (present.getStatus() != StatusesEnum.GRANTED) {
+            present.setCommentStatus(comment);
+            repository.save(present);
+            log.info("Update comment of present application {}", present.getCommentStatus());
+        }
     }
 
     @Override
@@ -116,7 +138,7 @@ public class PresentServiceImpl implements PresentService {
 
     @Override
     public List<PresentView> getResponsiblePresents(Long userId) {
-        List<Present> list = repository.findAllByCoordinatorIdAndStatus(userId, StatusesEnum.UNDER_CONSIDERATION);
+        List<Present> list = repository.findAllByCoordinatorIdAndStatusIsNot(userId, StatusesEnum.DRAFT);
         if (userService.findById(userId).getRole() == roleService.getRole(RolesEnum.ROLE_ACCOUNTANT)) {
             list = repository.findAllByAccountantIdAndStatus(userId, StatusesEnum.APPROVED_BY_COORDINATOR);
         }

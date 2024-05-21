@@ -5,9 +5,12 @@ import org.example.dto.RegistrationUserDto;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
 import org.example.repository.UserRepository;
+import org.example.service.RoleService;
 import org.example.service.UserService;
+import org.example.view.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +24,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepository userRepository;
-    private RoleServiceImpl roleService;
+    private RoleService roleService;
     private PasswordEncoder passwordEncoder;
 
 
@@ -57,6 +60,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("Create new user {}", user.getEmail());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(Long userId, RegistrationUserDto registrationUser) {
+        User user = new User();
+        user.setId(userId);
+        user.setEmail(registrationUser.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
+        user.setFullName(registrationUser.getFullName());
+        user.setDepartment(registrationUser.getDepartment());
+        user.setPosition(registrationUser.getPosition());
+        user.setBirthDate(registrationUser.getBirthDate());
+        user.setEmployeeDate(registrationUser.getEmployeeDate());
+        user.setPhoneNumber(registrationUser.getPhoneNumber());
+
+        log.info("Update user information {}", user.getEmail());
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public ResponseEntity<?> updateRole(Long userId, String roleName)  {
+        User user = findById(userId);
+        user.setRole(roleService.getRole(RolesEnum.valueOf(roleName)));
+        userRepository.save(user);
+        return ResponseEntity.ok(new UserResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getRole().getName().name()));
     }
 
     @Override
