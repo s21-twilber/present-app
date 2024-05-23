@@ -12,6 +12,7 @@ import org.example.service.FileService;
 import org.example.service.PresentService;
 import org.example.service.RoleService;
 import org.example.service.UserService;
+import org.example.util.MappingUtils;
 import org.example.view.PresentView;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,12 +30,14 @@ public class PresentServiceImpl implements PresentService {
     private final UserService userService;
     private final RoleService roleService;
     private final FileService fileService;
+    private final MappingUtils mappingUtils;
 
-    public PresentServiceImpl(PresentRepository repository, UserService userService, RoleService roleService, FileService fileService) {
+    public PresentServiceImpl(PresentRepository repository, UserService userService, RoleService roleService, FileService fileService, MappingUtils mappingUtils) {
         this.repository = repository;
         this.userService = userService;
         this.roleService = roleService;
         this.fileService = fileService;
+        this.mappingUtils = mappingUtils;
     }
 
 
@@ -47,6 +50,7 @@ public class PresentServiceImpl implements PresentService {
             tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
             tmp.setFilesRef(fileService.upload(presentDto.getFile()));
             findResponsibles(tmp);
+//            Present tmp = mappingUtils.mapToPresentEntity(presentDto);
             Present present = repository.save(tmp);
             log.info("Create new present application id = {}", present.getId());
             return present;
@@ -118,7 +122,7 @@ public class PresentServiceImpl implements PresentService {
         List<Present> list = repository.findAll();
         List<PresentView> res = new ArrayList<>();
         for(Present l : list) {
-            PresentView view = new PresentView(l);
+            PresentView view = mappingUtils.mapToPresentView(l);
             res.add(view);
         }
         return res;
@@ -129,7 +133,7 @@ public class PresentServiceImpl implements PresentService {
         List<Present> list = repository.findAllByEmployee_Id(userId);
         List<PresentView> res = new ArrayList<>();
         for(Present l : list) {
-            PresentView view = new PresentView(l);
+            PresentView view = mappingUtils.mapToPresentView(l);
             res.add(view);
         }
         return res;
@@ -144,7 +148,7 @@ public class PresentServiceImpl implements PresentService {
         }
         List<PresentView> res = new ArrayList<>();
         for(Present l : list) {
-            PresentView view = new PresentView(l);
+            PresentView view = mappingUtils.mapToPresentView(l);
             res.add(view);
         }
         return res;

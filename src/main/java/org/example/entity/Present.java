@@ -1,5 +1,7 @@
 package org.example.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.example.enums.StatusesEnum;
@@ -11,7 +13,9 @@ import java.util.Set;
 
 @Entity
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 @Table(name = "present", schema = "app")
 public class Present {
 
@@ -26,9 +30,9 @@ public class Present {
     private Integer numChildren;
 
     @Column(name = "child_name")
-    private String fullName;
+    private String fullChildName;
 
-    @Transient
+    @Column(name = "comment_children")
     private String commentChildren;
 
     @Column(name = "files_ref")

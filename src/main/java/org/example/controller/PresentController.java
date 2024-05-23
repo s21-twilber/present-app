@@ -8,6 +8,7 @@ import org.example.entity.Present;
 import org.example.service.FileService;
 import org.example.service.PresentService;
 import org.example.service.UserService;
+import org.example.util.MappingUtils;
 import org.example.view.PresentView;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class PresentController {
     private final PresentService presentService;
     private final UserService userService;
     private final FileService fileService;
+    private final MappingUtils mappingUtils;
 
 
     @Operation(summary = "Получение реестра заявок текущего пользователя")
@@ -46,7 +48,7 @@ public class PresentController {
     public PresentView createPresent(Principal principal, @ModelAttribute PresentDto application) throws IOException {
         Long userId = userService.findByEmail(principal.getName()).getId();
         Present present = presentService.createNewPresent(application, userId);
-        return new PresentView(present);
+        return mappingUtils.mapToPresentView(present);
     }
 
     @Operation(summary = "Изменение заявки")
@@ -54,7 +56,7 @@ public class PresentController {
     public PresentView updatePresent(@PathVariable Long presentId,
                                      PresentDto application) throws IOException {
         Present present = presentService.updatePresent(application, presentId);
-        return new PresentView(present);
+        return mappingUtils.mapToPresentView(present);
     }
 
 //    @Operation(summary = "Просмотр заявки")
