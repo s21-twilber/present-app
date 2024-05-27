@@ -7,7 +7,7 @@ import org.example.enums.RolesEnum;
 import org.example.repository.UserRepository;
 import org.example.service.RoleService;
 import org.example.service.UserService;
-import org.example.view.UserResponse;
+import org.example.util.MappingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
     private RoleService roleService;
     private PasswordEncoder passwordEncoder;
+    private MappingUtils mappingUtils;
 
+    @Autowired
+    public UserServiceImpl(MappingUtils mappingUtils) { this.mappingUtils = mappingUtils; }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -85,10 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = findById(userId);
         user.setRole(roleService.getRole(RolesEnum.valueOf(roleName)));
         userRepository.save(user);
-        return ResponseEntity.ok(new UserResponse(
-                user.getId(),
-                user.getEmail(),
-                user.getRole().getName().name()));
+        return ResponseEntity.ok(mappingUtils.mapToUserResponse(user));
     }
 
     @Override

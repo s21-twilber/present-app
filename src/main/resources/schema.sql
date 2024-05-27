@@ -33,7 +33,7 @@ CREATE TABLE if not exists app.users
     department VARCHAR(50),
     position VARCHAR(50) default 'Должность_1',
     address VARCHAR(100),
-    employee_date DATE NOT NULL default current_date,
+    employee_date VARCHAR(50),
     role VARCHAR(30) default 'ROLE_USER',
 
     FOREIGN KEY (position) REFERENCES app.positions(name),

@@ -38,6 +38,8 @@ public class User implements UserDetails {
 
     private String employeeDate;
 
+    private String address;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_role", schema = "app",
             joinColumns = @JoinColumn(name = "user_id"),

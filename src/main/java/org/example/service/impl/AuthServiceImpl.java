@@ -7,6 +7,7 @@ import org.example.exception.AppError;
 import org.example.repository.RoleRepository;
 import org.example.service.AuthService;
 import org.example.service.UserService;
+import org.example.util.MappingUtils;
 import org.example.view.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final MappingUtils mappingUtils;
 
 
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationUserDto registrationUser) {
@@ -36,10 +38,7 @@ public class AuthServiceImpl implements AuthService {
                     HttpStatus.BAD_REQUEST);
         }
         User user = userService.createNewUser(registrationUser);
-        return ResponseEntity.ok(new UserResponse(
-                user.getId(),
-                user.getEmail(),
-                user.getRole().getName().name()));
+        return ResponseEntity.ok(mappingUtils.mapToUserResponse(user));
     }
 
 }

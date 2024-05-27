@@ -2,7 +2,6 @@ package org.example.view;
 
 
 import lombok.*;
-import org.example.entity.Present;
 
 
 import java.util.Date;
@@ -26,8 +25,6 @@ public class PresentView {
     private String commentChildren;
     private Set<String> filesRef;
     private String finalPhoto;
-//    private Long coordinatorId;
-//    private Long accountantId;
     private String status;
 
 }

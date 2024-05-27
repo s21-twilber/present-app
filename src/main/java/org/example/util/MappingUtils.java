@@ -41,10 +41,20 @@ public class MappingUtils {
     }
 
 //    // user response
-//    public UserResponse mapToUserResponse(User user) {
-//        UserResponse userResponse = new UserResponse();
-//        return userResponse;
-//    }
+    public UserResponse mapToUserResponse(User user) {
+        return UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .birthDate(user.getBirthDate())
+                .employeeDate(user.getEmployeeDate())
+                .fullName(user.getFullName())
+                .phoneNumber(user.getPhoneNumber())
+                .position(user.getPosition())
+                .department(user.getDepartment())
+                .address(user.getAddress())
+                .role(user.getRole().getName().name())
+                .build();
+    }
 //
 //    // registration user
 //    public User mapToUserEntity(RegistrationUserDto registrationUserDto) {

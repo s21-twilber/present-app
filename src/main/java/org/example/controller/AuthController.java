@@ -4,7 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.RegistrationUserDto;
-import org.example.dto.UserRequest;
+import org.example.dto.UserDto;
+import org.example.util.MappingUtils;
 import org.example.view.UserResponse;
 import org.example.entity.User;
 import org.example.service.UserService;
@@ -25,6 +26,7 @@ public class AuthController {
 
     private final AuthServiceImpl authService;
     private final UserService userService;
+    private final MappingUtils mappingUtils;
 
     @Operation(summary = "Регистрация нового пользователя")
     @PostMapping("/registration")
@@ -34,7 +36,7 @@ public class AuthController {
 
     @Operation(summary = "Вход в систему")
     @PostMapping(value = "/login", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void login(@RequestBody UserRequest request) {
+    public void login(@RequestBody UserDto request) {
     }
 
     @GetMapping(value = "/login")
@@ -56,7 +58,7 @@ public class AuthController {
     public ResponseEntity<?> getUser(HttpServletRequest request) {
         User user = userService.findByEmail(request.getRemoteUser());
         if (user != null) {
-            return ResponseEntity.ok(new UserResponse(user.getId(), user.getEmail(), user.getRole().getName().name()));
+            return ResponseEntity.ok(mappingUtils.mapToUserResponse(user));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -68,7 +70,7 @@ public class AuthController {
     public ResponseEntity<?> getUserInfo(HttpServletRequest request) {
         User user = userService.findByEmail(request.getRemoteUser());
         if (user != null) {
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(mappingUtils.mapToUserResponse(user));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -81,7 +83,7 @@ public class AuthController {
                                             HttpServletRequest request) {
         User user = userService.findByEmail(request.getRemoteUser());
         if (user != null) {
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(mappingUtils.mapToUserResponse(user));
         } else {
             return ResponseEntity.notFound().build();
         }
