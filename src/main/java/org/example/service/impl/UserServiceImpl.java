@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.RegistrationUserDto;
+import org.example.dto.UserDto;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
 import org.example.repository.UserRepository;
@@ -66,17 +67,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User updateUser(Long userId, RegistrationUserDto registrationUser) {
-        User user = new User();
+    public User updateUser(Long userId, UserDto userDto) {
+        User user = userRepository.findById(userId).get();
         user.setId(userId);
-        user.setEmail(registrationUser.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
-        user.setFullName(registrationUser.getFullName());
-        user.setDepartment(registrationUser.getDepartment());
-        user.setPosition(registrationUser.getPosition());
-        user.setBirthDate(registrationUser.getBirthDate());
-        user.setEmployeeDate(registrationUser.getEmployeeDate());
-        user.setPhoneNumber(registrationUser.getPhoneNumber());
+        user.setEmail(userDto.getEmail());
+//        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setFullName(userDto.getFullName());
+        user.setDepartment(userDto.getDepartment());
+        user.setPosition(userDto.getPosition());
+        user.setBirthDate(userDto.getBirthDate());
+        user.setEmployeeDate(userDto.getEmployeeDate());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setAddress(userDto.getAddress());
 
         log.info("Update user information {}", user.getEmail());
 

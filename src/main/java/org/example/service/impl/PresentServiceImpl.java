@@ -47,9 +47,10 @@ public class PresentServiceImpl implements PresentService {
             User user = userService.findById(userId);
             tmp.setEmployee(user);
             tmp.setNumChildren(presentDto.getNumChildren());
+            tmp.setFullChildName(presentDto.getFullChildName());
             tmp.setStatus(StatusesEnum.UNDER_CONSIDERATION);
             tmp.setFilesRef(fileService.upload(presentDto.getFile()));
-            findResponsibles(tmp);
+            findResponsible(tmp);
 //            Present tmp = mappingUtils.mapToPresentEntity(presentDto);
             Present present = repository.save(tmp);
             log.info("Create new present application id = {}", present.getId());
@@ -162,7 +163,7 @@ public class PresentServiceImpl implements PresentService {
     }
 
     @Override
-    public void findResponsibles(Present present) {
+    public void findResponsible(Present present) {
         Random rand = new Random();
         List<User> coordinators = userService.findByRole(RolesEnum.ROLE_COORDINATOR);
         User coordinator = coordinators.get(rand.nextInt(coordinators.size()));

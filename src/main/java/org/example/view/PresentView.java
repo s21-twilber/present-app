@@ -22,6 +22,7 @@ public class PresentView {
     private String employeeDate;
     private Date appDate;
     private int numChildren;
+    private Set<String> fullChildName;
     private String commentChildren;
     private Set<String> filesRef;
     private String finalPhoto;

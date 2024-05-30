@@ -8,7 +8,6 @@ import org.example.repository.RoleRepository;
 import org.example.service.AuthService;
 import org.example.service.UserService;
 import org.example.util.MappingUtils;
-import org.example.view.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

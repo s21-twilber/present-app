@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.RegistrationUserDto;
+import org.example.dto.LoginDto;
 import org.example.dto.UserDto;
 import org.example.util.MappingUtils;
-import org.example.view.UserResponse;
 import org.example.entity.User;
 import org.example.service.UserService;
 import org.example.service.impl.AuthServiceImpl;
@@ -36,7 +36,7 @@ public class AuthController {
 
     @Operation(summary = "Вход в систему")
     @PostMapping(value = "/login", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void login(@RequestBody UserDto request) {
+    public void login(@RequestBody LoginDto request) {
     }
 
     @GetMapping(value = "/login")
@@ -79,9 +79,10 @@ public class AuthController {
 
     @Operation(summary = "Изменение данных пользователя")
     @PatchMapping("/user")
-    public ResponseEntity<?> updateUserInfo(@RequestBody RegistrationUserDto registrationUser,
+    public ResponseEntity<?> updateUserInfo(@RequestBody UserDto userDto,
                                             HttpServletRequest request) {
         User user = userService.findByEmail(request.getRemoteUser());
+        user = userService.updateUser(user.getId(), userDto);
         if (user != null) {
             return ResponseEntity.ok(mappingUtils.mapToUserResponse(user));
         } else {

@@ -46,20 +46,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Role role;
 
-
-
-    @Override
-    public String toString() {
-        return "{id = " + id + ",\n" +
-                " name = " + fullName + ",\n" +
-                " date of birth = " + birthDate + ",\n" +
-                " email = " + email + ",\n" +
-                " phone number = " + phoneNumber + ",\n" +
-                " position = " + position + ",\n" +
-                " date of emplacement = " + employeeDate + ",\n" +
-                "roles = " + role + "\n" +
-                "},";
-    }
+    private Boolean available = true;
 
 
     @Override

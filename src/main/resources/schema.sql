@@ -35,6 +35,7 @@ CREATE TABLE if not exists app.users
     address VARCHAR(100),
     employee_date VARCHAR(50),
     role VARCHAR(30) default 'ROLE_USER',
+    available BOOL default true,
 
     FOREIGN KEY (position) REFERENCES app.positions(name),
     FOREIGN KEY (role) REFERENCES app.roles(name)
@@ -55,7 +56,7 @@ CREATE TABLE if not exists app.present
     id SERIAL PRIMARY KEY UNIQUE,
     employee_id BIGINT,
     num_children INT NOT NULL default 0,
-    child_name VARCHAR(100),
+    full_child_name VARCHAR(100),
     files_ref VARCHAR(100) UNIQUE,
     comment_children VARCHAR(200),
     final_photo VARCHAR(100),
@@ -82,6 +83,14 @@ CREATE TABLE if not exists app.present_files_ref
 (
     present_id BIGINT,
     files_ref VARCHAR(200),
+
+    FOREIGN KEY (present_id) REFERENCES app.present(id)
+);
+
+CREATE TABLE if not exists app.present_full_child_name
+(
+    present_id BIGINT,
+    full_child_name VARCHAR(200),
 
     FOREIGN KEY (present_id) REFERENCES app.present(id)
 );

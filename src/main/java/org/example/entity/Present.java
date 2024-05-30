@@ -29,8 +29,9 @@ public class Present {
     @Column(name = "num_children")
     private Integer numChildren;
 
-    @Column(name = "child_name")
-    private String fullChildName;
+    @Column(name = "full_child_name")
+    @ElementCollection(targetClass=String.class)
+    private Set<String> fullChildName;
 
     @Column(name = "comment_children")
     private String commentChildren;

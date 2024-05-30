@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.dto.RegistrationUserDto;
+import org.example.dto.UserDto;
 import org.example.entity.User;
 import org.example.enums.RolesEnum;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface UserService extends UserDetailsService {
     User createNewUser(RegistrationUserDto registrationUser);
-    User updateUser(Long userId, RegistrationUserDto registrationUser);
+    User updateUser(Long userId, UserDto userDto);
     ResponseEntity<?> updateRole(Long userId, String roleName);
     List<User> getAll();
     User findByEmail(String email);

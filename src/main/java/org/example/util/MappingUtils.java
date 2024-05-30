@@ -1,11 +1,10 @@
 package org.example.util;
 
 import org.example.dto.PresentDto;
-import org.example.dto.RegistrationUserDto;
 import org.example.entity.Present;
 import org.example.entity.User;
 import org.example.view.PresentView;
-import org.example.view.UserResponse;
+import org.example.dto.UserDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +22,7 @@ public class MappingUtils {
                 .employeeDate(present.getEmployee().getEmployeeDate())
                 .appDate(present.getAppDate())
                 .numChildren(present.getNumChildren())
+                .fullChildName(present.getFullChildName())
                 .commentChildren(present.getCommentChildren())
                 .filesRef(present.getFilesRef())
                 .finalPhoto(present.getFinalPhoto())
@@ -40,9 +40,9 @@ public class MappingUtils {
                 .build();
     }
 
-//    // user response
-    public UserResponse mapToUserResponse(User user) {
-        return UserResponse.builder()
+    // user response
+    public UserDto mapToUserResponse(User user) {
+        return UserDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .birthDate(user.getBirthDate())

@@ -33,5 +33,5 @@ public interface PresentService {
 
     Present getUserPresent(Long appId);
 
-    void findResponsibles(Present present);
+    void findResponsible(Present present);
 }
